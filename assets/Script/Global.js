@@ -7,7 +7,8 @@
 window.Global = {
 
     // vị trí đánh bài trên bàn
-    PlayerSelect: 0
+    PlayerSelect: 0,
+    
 
     
 

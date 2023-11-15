@@ -53,11 +53,19 @@ cc.Class({
                 let randomx = Math.floor(Math.random() * socardconlai);
                 if (m != Nguoi10Con) {
                     if (m1 < 9) {
-                        this.allPlayerCard[m].push(this.cardList[randomx])
+                        var cardObj = new Object();
+                        cardObj.id = this.cardList[randomx];
+                        cardObj.cardStatus = 0;
+
+                        this.allPlayerCard[m].push(cardObj)
                         this.cardList.splice(randomx, 1);
                     }
                 } else {
-                    this.allPlayerCard[m].push(this.cardList[randomx])
+                    var cardObj = new Object();
+                    cardObj.id = this.cardList[randomx];
+                    cardObj.cardStatus = 0;
+
+                    this.allPlayerCard[m].push(cardObj)
                     this.cardList.splice(randomx, 1);
                 }
             }
@@ -68,7 +76,7 @@ cc.Class({
         this.ChiaBai(true);
 
     },
-    ChiaBai(deleteall) {
+    ChiaBai() {
         var CardTable = this.node.getChildByName("CardTable");
         // xóa hết bài trên bàn
       // if (deleteall) {
@@ -93,7 +101,7 @@ cc.Class({
 
                 var cardpf = cc.instantiate(this.card);
                 cardpf.setPosition(posix, posiy)
-                cardpf.getComponent("card").VeLaBai(this.allPlayerCard[i][j], j, i);
+                cardpf.getComponent("card").VeLaBai(this.allPlayerCard[i][j].id, j, i);
                 playerx.addChild(cardpf);
 
             }
@@ -134,7 +142,11 @@ cc.Class({
         if (this.allPlayerCard.length == 4) {
             var lengthx = this.cardOnTable3.length;
             if (lengthx > 0) {
-                this.allPlayerCard[0].push(this.cardOnTable3[lengthx - 1]);
+                var cardObj = new Object();
+                cardObj.id = this.cardOnTable3[lengthx - 1];
+                cardObj.cardStatus = 100;
+
+                this.allPlayerCard[0].push(cardObj);
                 this.cardOnTable3.splice(lengthx - 1, 1);
                 this.ChiaBai(false);
             }
@@ -144,7 +156,11 @@ cc.Class({
         if (this.allPlayerCard.length == 3) {
             var lengthx = this.cardOnTable2.length;
             if (lengthx > 0) {
-                this.allPlayerCard[0].push(this.cardOnTable2[lengthx - 1]);
+                var cardObj = new Object();
+                cardObj.id = this.cardOnTable2[lengthx - 1];
+                cardObj.cardStatus = 100;
+
+                this.allPlayerCard[0].push(cardObj);
                 this.cardOnTable2.splice(lengthx - 1, 1);
                 this.ChiaBai(false);
             }
@@ -154,7 +170,11 @@ cc.Class({
         if (this.allPlayerCard.length == 2) {
             var lengthx = this.cardOnTable1.length;
             if (lengthx > 0) {
-                this.allPlayerCard[0].push(this.cardOnTable1[lengthx - 1]);
+                var cardObj = new Object();
+                cardObj.id = this.cardOnTable1[lengthx - 1];
+                cardObj.cardStatus = 100;
+                
+                this.allPlayerCard[0].push(cardObj);
                 this.cardOnTable1.splice(lengthx - 1, 1);
                 this.ChiaBai(false);
             }
@@ -166,21 +186,125 @@ cc.Class({
     addCardOnTable(_cardNumber, _idplayer) {
         if (_idplayer == 0) {
             this.cardOnTable0.push(_cardNumber);
+
         }
         if (_idplayer == 1) {
             this.cardOnTable1.push(_cardNumber);
+            if(this.allPlayerCard.length == 2){
+                this.LaBaiCungSo(_cardNumber);
+
+            }
         }
         if (_idplayer == 2) {
             this.cardOnTable2.push(_cardNumber);
+            if(this.allPlayerCard.length == 3){
+                this.LaBaiCungSo(_cardNumber);
+
+            }
         }
         if (_idplayer == 3) {
             this.cardOnTable3.push(_cardNumber);
+            if (this.allPlayerCard.length == 4) {
+                this.LaBaiCungSo(_cardNumber);
+            }
         }
+        // xóa bài trên tay
         for (let i = 0; i < this.allPlayerCard[_idplayer].length; i++) {
-            if (this.allPlayerCard[_idplayer][i] == _cardNumber) this.allPlayerCard[_idplayer].splice(i, 1);
+            if (this.allPlayerCard[_idplayer][i].id == _cardNumber) this.allPlayerCard[_idplayer].splice(i, 1);
 
         }
+        //
         console.log(this.cardOnTable0 + "|" + this.cardOnTable1 + "|" + this.cardOnTable2 + "|" + this.cardOnTable3);
-    }
+    },
+
+    cardSort() {
+        var array = this.allPlayerCard[0];
+        var size = array.length;
+        for (var step = 1; step < size; step++) {
+         var keyArr = array[step];
+          var key = array[step].id%100;
+          var j = step - 1;
+          while (j >= 0 && key > array[j].id%100) {
+            array[j + 1] = array[j];
+            j--;
+          }
+          array[j + 1] = keyArr;
+        }
+        console.log(this.allPlayerCard);
+        this.ChiaBai(false);
+      },
+      BocBai(){ /// BTN
+        console.log("BocBai");
+        let socardconlai = this.cardList.length;
+        let randomx = Math.floor(Math.random() * socardconlai);
+        this.AddLaBaiBocDuocVaoBoBai(randomx);
+
+      },
+      AddLaBaiBocDuocVaoBoBai(randomx){
+        var cardObj = new Object();
+        cardObj.id = this.cardList[randomx];
+        cardObj.cardStatus = 0;
+
+        this.allPlayerCard[0].push(cardObj)
+        this.cardList.splice(randomx, 1);
+        this.ChiaBai(false);
+      },
+      SoLaBaiCuaNguoiChoi(){
+
+      },
+      CheckLaBaiCoAnDuocKhong(_cardid){
+        var cardid = _cardid;
+        if(this.allPlayerCard[0].length < 10){
+            
+        }
+
+      },
+
+      LaBaiCungSo(cardid){
+        var arr = [];
+        arr.push(cardid);
+        var listPlaycard = this.allPlayerCard[0];
+        var typeCardId = cardid%100;
+        for (let i = 0; i < listPlaycard.length; i++) {
+            let oneCardTrenTay = listPlaycard[i].id;
+            var type1PlayCard = listPlaycard[i].id%100;
+            if(typeCardId == type1PlayCard){
+                arr.push(oneCardTrenTay);
+            }
+            
+        }
+        //console.log(arr);
+        if(arr.length >= 3){
+            console.log("An Duoc phom  " +arr.length);
+            console.log(arr);
+        }
+      },
+      LaBaiCungChat(cardid){
+        var arrTien = [];
+        arrTien.push(cardid);
+
+        var arrLui = [];
+        var listPlaycard = this.allPlayerCard[0];
+
+        var typeCardId = Math.floor(cardid/100);
+        var valueCardId = cardid%100;
+        for (let i = 0; i < listPlaycard.length; i++) {
+            let type = Math.floor(listPlaycard[i].id/100);
+            let value = listPlaycard[i].id%100;
+
+            if(type == typeCardId){
+                if((valueCardId + 1) == value){
+                    arrTien.push(listPlaycard[i].id)
+                };
+                if((valueCardId - 1) == value){ 
+                    arrLui.push(listPlaycard[i].id)
+                };
+
+            }
+
+        }
+
+      }
+
     // update (dt) {},
 });
