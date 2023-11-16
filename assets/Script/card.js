@@ -29,7 +29,7 @@ cc.Class({
         type: 1, // tuong ung ro co tep bich
         value: 1, /// 0 --> 9 and  10 11 12 tuong ung J Q K AT
         idPlayer: 0,// 0,1,2,3
-       // vitriLabai : 0// 0 tren tay //  1 la bai tren ban /// 2 bi an 
+        // vitriLabai : 0// 0 tren tay //  1 la bai tren ban /// 2 bi an 
 
 
     },
@@ -39,46 +39,63 @@ cc.Class({
     // onLoad () {},
 
     start() {
-       //this.VeLaBai();
+        //this.VeLaBai();
     },
-    VeLaBai(_valueAll,_idx,_idPlayer){
+    VeLaBai(_valueAll, _idx, _idPlayer) {
+
         var valueAll = _valueAll;
-        this.type = Math.floor(valueAll/100);
-        this.value = valueAll%100;
+        this.type = Math.floor(valueAll / 100);
+        this.value = valueAll % 100;
         this.cardStatus = 0;
         this.idCard = _idx;
         this.idPlayer = _idPlayer;
         //this.vitriLabai = 0;// la bai tren tay
-        this.showImgLabai(this.type ,this.value);
+        var idplayerx = false;
+        if ( this.idPlayer > 0) idplayerx = false;
+        else idplayerx = true;
+        this.showImgLabai(idplayerx, this.type, this.value);
     },
-    DanhLabai(selfx){
+    DanhLabai(selfx) {
 
         this.type = selfx.type;
         this.value = selfx.value;
         this.cardStatus = 3; // la bai tren ban
         this.idCard = selfx.idCard;
         this.idPlayer = selfx.idPlayer;
-        
+
         //this.vitriLabai = 1;// la bai tren ban
-        this.showImgLabai(this.type ,this.value);
+        //var idplayerx = this._idPlayer;
+        //if (Global.TestGame && idplayerx != 0) idplayerx = 0;
+        console.log(this.type+"|"+this.value);
+        console.log(selfx);
+        this.showImgLabai(true, this.type, this.value);
     },
 
-    showImgLabai(type, value){
-        for (let i = 0; i < 4; i++) {
-            for (let j = 0; j < 14; j++) {
-                if(type == (i+1) && value == j) this.node.children[i+1].children[j].active = true;
-                else this.node.children[i+1].children[j].active = false;
+    showImgLabai(latBai, type, value) {
+       // if (idPlayer == 0) {
+        console.log("idPlayer " + latBai);
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 14; j++) {
+                    if (type == (i + 1) && value == j) this.node.children[i + 1].children[j].active = true;
+                    else this.node.children[i + 1].children[j].active = false;
+                }
+            }
+    //    } else {
+            for (let i = 0; i < 4; i++) {
+                if(latBai == true) this.node.children[i+1].active = true;
+                else this.node.children[i+1].active = false;
 
             }
-            
-        }
+           // console.log("active");
+
+      //  }
     },
     cardBtn() {
-        console.log(this.cardStatus);
-     //   if(this.idPlayer == 0){\
-     if(this.cardStatus < 2){
-        this.checkOtherCard();
-     }
+        console.log(this.cardStatus +" |idCard"+ this.idCard+" |idPlayer"+ this.idPlayer);
+        //   if(this.idPlayer == 0){\
+        if (this.cardStatus < 2) {
+            this.checkOtherCard();
+        }
         //}
 
     },
@@ -108,9 +125,9 @@ cc.Class({
         var posiy = player0123[this.idPlayer].posiCard[1];
 
         if (posix == 0) {
-            this.node.y = posiy ;
-        }else{
-            if(posiy==0){
+            this.node.y = posiy;
+        } else {
+            if (posiy == 0) {
                 this.node.x = posix;
             }
         }
@@ -128,11 +145,11 @@ cc.Class({
 
             this.node.y = posiy + 40 * phuongHuong;
 
-        }else{
-            if(posiy==0){
+        } else {
+            if (posiy == 0) {
                 if (posix <= 0) phuongHuong = 1;
                 else phuongHuong = -1;
-    
+
                 this.node.x = posix + 40 * phuongHuong;
             }
         }
@@ -146,8 +163,8 @@ cc.Class({
         let toadoy = self.node.y;
 
         if (this.cardStatus == 1) {
-           // this.type = Math.floor(valueAll/100);
-           // this.value = valueAll%100;
+            // this.type = Math.floor(valueAll/100);
+            // this.value = valueAll%100;
             var _cardNumber = this.type * 100 + this.value;
             cc.find("Canvas/GamePlay").getComponent("GamePlayCtrl").addCardOnTable(_cardNumber, this.idPlayer);
             this.cardStatus = 2;
