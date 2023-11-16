@@ -13,7 +13,7 @@ const   player0123 = [
     },
     {
         name:"Player1",
-        posiCard :[450,0],
+        posiCard :[400,0],
         rotation:90,
         posiCardM:[320,130]
     },
@@ -25,7 +25,7 @@ const   player0123 = [
     },
     {
         name:"Player3",
-        posiCard :[-450,0],
+        posiCard :[-400,0],
         rotation:-90,
         posiCardM:[-320,-140]
     }

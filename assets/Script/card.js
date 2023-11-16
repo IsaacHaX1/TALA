@@ -66,14 +66,14 @@ cc.Class({
         //this.vitriLabai = 1;// la bai tren ban
         //var idplayerx = this._idPlayer;
         //if (Global.TestGame && idplayerx != 0) idplayerx = 0;
-        console.log(this.type+"|"+this.value);
-        console.log(selfx);
+       // console.log(this.type+"|"+this.value);
+      //  console.log(selfx);
         this.showImgLabai(true, this.type, this.value);
     },
 
     showImgLabai(latBai, type, value) {
        // if (idPlayer == 0) {
-        console.log("idPlayer " + latBai);
+      //  console.log("idPlayer " + latBai);
             for (let i = 0; i < 4; i++) {
                 for (let j = 0; j < 14; j++) {
                     if (type == (i + 1) && value == j) this.node.children[i + 1].children[j].active = true;
