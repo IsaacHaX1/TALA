@@ -91,7 +91,7 @@ cc.Class({
       //  }
     },
     cardBtn() {
-        console.log(this.cardStatus +" |idCard"+ this.idCard+" |idPlayer"+ this.idPlayer);
+       // console.log(this.cardStatus +" |idCard"+ this.idCard+" |idPlayer"+ this.idPlayer);
         //   if(this.idPlayer == 0){\
         if (this.cardStatus < 2) {
             this.checkOtherCard();
@@ -166,7 +166,12 @@ cc.Class({
             // this.type = Math.floor(valueAll/100);
             // this.value = valueAll%100;
             var _cardNumber = this.type * 100 + this.value;
-            cc.find("Canvas/GamePlay").getComponent("GamePlayCtrl").addCardOnTable(_cardNumber, this.idPlayer);
+            var _GamePlayNode= cc.find("Canvas/GamePlay");
+            var arrCardTable = _GamePlayNode.getComponent("GamePlayCtrl").addCardOnTable(_cardNumber, this.idPlayer);
+            console.log(arrCardTable);
+            console.log(arrCardTable.length);
+            var cardTBlength = arrCardTable.length
+
             this.cardStatus = 2;
             var PlayerM = this.node.parent.parent.getChildByName("PlayerM" + this.idPlayer);
             var userIcon = cc.instantiate(this.node.parent.parent.parent.getComponent("GamePlayCtrl").card);
@@ -176,7 +181,7 @@ cc.Class({
             PlayerM.addChild(userIcon);
             this.node.active = false;
             self.scheduleOnce(function () {
-                var actionBy = cc.moveTo(2, cc.v2(player0123[this.idPlayer].posiCardM[0], player0123[this.idPlayer].posiCardM[1]));
+                var actionBy = cc.moveTo(0.5, cc.v2(player0123[this.idPlayer].posiCardM[0] + cardTBlength*25, player0123[this.idPlayer].posiCardM[1]));
                 userIcon.runAction(actionBy);
             }, 0.1);
         }

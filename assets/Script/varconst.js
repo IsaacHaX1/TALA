@@ -7,7 +7,7 @@
 const   player0123 = [
     {
         name:"Player0",
-        posiCard :[0,-260],
+        posiCard :[0,-280],
         rotation:0,
         posiCardM:[150,-140]
     },

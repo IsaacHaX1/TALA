@@ -13,7 +13,10 @@ cc.Class({
         cardList: null,
         allPlayerCard: [],
         cardOnTable0: [],
-        phom0 :[],
+        phom0 :[[101,102,103,104],[201,202,203]],
+        phom1:[[101,102,103,104],[201,202,203]],
+        phom2:[[101,102,103,104],[201,202,203]],
+        phom3 :[[101,102,103,104],[201,202,203]],
         cardOnTable1: [],
         cardOnTable2: [],
         cardOnTable3: [],
@@ -117,7 +120,7 @@ cc.Class({
             if (i1 == 2) cardOf1Player = this.cardOnTable2;
             if (i1 == 3) cardOf1Player = this.cardOnTable3;
             for (let j1 = 0; j1 < cardOf1Player.length; j1++) {
-                var posix = player0123[i1].posiCardM[0];
+                var posix = player0123[i1].posiCardM[0]+(j1+1)*25;
                 var posiy = player0123[i1].posiCardM[1];
 
                 var cardpf = cc.instantiate(this.card);
@@ -222,7 +225,22 @@ cc.Class({
 
         }
         //
-        console.log(this.cardOnTable0 + "|" + this.cardOnTable1 + "|" + this.cardOnTable2 + "|" + this.cardOnTable3);
+        if (_idplayer == 0) {
+            return this.cardOnTable0;
+
+        }
+        if (_idplayer == 1) {
+            return  this.cardOnTable1;
+
+        }
+        if (_idplayer == 2) {
+            return this.cardOnTable2;
+
+        }
+        if (_idplayer == 3) {
+            return  this.cardOnTable3;
+ 
+        }
     },
 
     cardSort() {
@@ -456,7 +474,18 @@ cc.Class({
         
 
 
-    }
+    },
+    HaPhom0(){
 
+    },
+    HaPhom1(){
+
+    },
+    HaPhom2(){
+
+    },
+    HaPhom3(){
+        
+    }
     // update (dt) {},
 });
