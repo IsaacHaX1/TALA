@@ -96,7 +96,8 @@ cc.Class({
 
                 var cardpf = cc.instantiate(this.card);
                 cardpf.setPosition(posix, posiy);
-                cardpf.getComponent("card").VeLaBai(this.allPlayerCard[i][j].id, j, i);
+                var _cardx = this.allPlayerCard[i][j];
+                cardpf.getComponent("card").VeLaBai(_cardx.id, _cardx.id, i);
                 playerx.addChild(cardpf);
             }
 
@@ -126,7 +127,7 @@ cc.Class({
             var obj = new Object();
             obj.type = Math.floor(cardOf1Player[j1]/100);
             obj.value = cardOf1Player[j1]%100;
-            obj.idCard = j1;
+            obj.idCard = cardOf1Player;
             obj.idPlayer = i1;
 
                 cardpf.getComponent("card").DanhLabai(obj)
@@ -279,8 +280,9 @@ cc.Class({
         //console.log(arr);
         var arr = this.LaBaiCungSo(cardid);
         if (arr.length >= 3) {
-            console.log("An Duoc phom  " + arr.length);
+            console.log("ăn được phỏm cùng số " + arr.length);
             console.log(arr);
+            this.NhapNhay(arr);
         }
     },
 
@@ -302,8 +304,38 @@ cc.Class({
     checkBaiCungChat(cardid){
         var arr = this.LaBaiCungChat(cardid);
         if(arr.length > 2){
-            console.log("AN phom cung chat " + arr.length);
+            console.log("ăn được phỏm cùng chất " + arr.length);
+            this.NhapNhay(arr);
         }
+    },
+    NhapNhay(arrz){
+        var Player0 = this.node.getChildByName("CardTable").getChildByName("Player0");
+        var PlayerM = this.node.getChildByName("CardTable").getChildByName("PlayerM3");
+        for (let i = 0; i < Player0.children.length; i++) {
+            for (let j = 0; j < arrz.length; j++) {
+                if(Player0.children[i].getComponent("card").idCard == arrz[j]) Player0.children[i].getComponent("card").playAnimationPingpong();
+            }
+            
+        }
+
+        // var lengthM = PlayerM.length;
+        // for (let i1 = 0; i1 < arrz.length; i1++) {
+        //     if(PlayerM[lengthM-1].getComponent("card").idCard == arrz[i1]) PlayerM[lengthM-1].getComponent("card").playAnimationPingpong();
+
+        // }
+    },
+    DungNhapNhay(){
+        var Player0 = this.node.getChildByName("CardTable").getChildByName("Player0");
+        var PlayerM = this.node.getChildByName("CardTable").getChildByName("PlayerM3");
+        for (let i = 0; i < Player0.length; i++) {
+         //   for (let j = 0; j < arrz.length; j++) {
+                Player0[i].getComponent("card").stopAnimationPingpong();
+          //  }
+            
+        }
+        var lengthM = PlayerM.length;
+            PlayerM[lengthM-1].getComponent("card").stopAnimationPingpong();
+
     },
     LaBaiCungChat(cardid) {
         var arrTien = [];

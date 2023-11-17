@@ -25,7 +25,7 @@ cc.Class({
         //     }
         // },
         cardStatus: 0, // 0 dang tren tay, 1 san sang , 2 danh bai , 3 bai tren ban
-        idCard: 0,
+        idCard: 0, // 101, 208... tuong ung type value
         type: 1, // tuong ung ro co tep bich
         value: 1, /// 0 --> 9 and  10 11 12 tuong ung J Q K AT
         idPlayer: 0,// 0,1,2,3
@@ -39,7 +39,7 @@ cc.Class({
     // onLoad () {},
 
     start() {
-        //this.VeLaBai();
+        //this.playAnimationPingpong();
     },
     VeLaBai(_valueAll, _idx, _idPlayer) {
 
@@ -47,7 +47,7 @@ cc.Class({
         this.type = Math.floor(valueAll / 100);
         this.value = valueAll % 100;
         this.cardStatus = 0;
-        this.idCard = _idx;
+        this.idCard = _valueAll;
         this.idPlayer = _idPlayer;
         //this.vitriLabai = 0;// la bai tren tay
         var idplayerx = false;
@@ -97,7 +97,7 @@ cc.Class({
             this.checkOtherCard();
         }
         //}
-
+       // this.stopAnimationPingpong();
     },
     checkOtherCard() {
         // check xem cac la bai khac co bi select khong
@@ -180,6 +180,12 @@ cc.Class({
                 userIcon.runAction(actionBy);
             }, 0.1);
         }
+    },
+    playAnimationPingpong(){
+        this.node.getComponent(cc.Animation).play("pingka");
+    },
+    stopAnimationPingpong(){
+        this.node.getComponent(cc.Animation).stop();
     }
     // update (dt) {},
 });
