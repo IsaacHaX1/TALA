@@ -31,10 +31,12 @@ cc.Class({
     // onLoad () {},
 
     start () {
-
+        this.ShowLoading();
     },
     ShowLoading(){
-        
+        this.node.getChildByName("Loading").active = true;
+        this.node.getChildByName("GamePlay").active = false;
+
     }
 
     // update (dt) {},

@@ -32,6 +32,7 @@ window._MyRoom ={
         this.viTriNguoiChoi = [];
 
         let vitriUser = _MyRoom.nguoiChoiViTriSoMayTrongData(MyID,_users);
+        console.log(vitriUser);
         obj = new Object();
         obj.id = MyID;
         obj.idTrongArr = vitriUser;
@@ -44,7 +45,7 @@ window._MyRoom ={
                 if(i != vitriUser){
                     obj = new Object();
                     obj.id = _users[i].id;
-                    obj.idTrongArr = 1;
+                    obj.idTrongArr = i;
                     obj.viTriTrenBan = 1;
             
                     this.viTriNguoiChoi.push(obj);

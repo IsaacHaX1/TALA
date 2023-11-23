@@ -55,13 +55,16 @@ cc.Class({
         let vitri = window._MyRoom.viTriNguoiChoi;
         for (let i = 0; i < vitri.length; i++) {
             this.allPlayerCard[i] = [];
-            for (let j = 0; j < _users[i].cards.length; j++) {
-                let _type = _users[i].cards[j].type;
-                let _value = _users[i].cards[j].value;
+            let arrvt = vitri[i].idTrongArr;
+            for (let j = 0; j < _users[arrvt].cards.length; j++) {
+                let _type = _users[arrvt].cards[j].type;
+                let _value = _users[arrvt].cards[j].value;
+
                 var cardObj = new Object();
                 cardObj.id = _type * 100 + _value;
                 cardObj.cardStatus = 0;
                 this.allPlayerCard[i].push(cardObj)
+
             }
             
         }

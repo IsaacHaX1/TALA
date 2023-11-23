@@ -1,0 +1,107 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "chiabai3",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.0333333333333334,
+  "sample": 60,
+  "speed": 3,
+  "wrapMode": 2,
+  "curveData": {
+    "props": {
+      "position": [
+        {
+          "frame": 0,
+          "value": [
+            0,
+            0
+          ],
+          "motionPath": []
+        },
+        {
+          "frame": 0.3333333333333333,
+          "value": [
+            0,
+            -280,
+            0
+          ]
+        },
+        {
+          "frame": 0.35,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 0.6833333333333333,
+          "value": [
+            0,
+            260,
+            0
+          ]
+        },
+        {
+          "frame": 0.7,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1.0333333333333334,
+          "value": [
+            380,
+            0,
+            0
+          ]
+        }
+      ],
+      "angle": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.3333333333333333,
+          "value": 360
+        },
+        {
+          "frame": 0.35,
+          "value": 0
+        },
+        {
+          "frame": 0.6833333333333333,
+          "value": 360
+        },
+        {
+          "frame": 0.7,
+          "value": 0
+        },
+        {
+          "frame": 1.0333333333333334,
+          "value": 450
+        }
+      ]
+    }
+  },
+  "events": [
+    {
+      "frame": 0.35,
+      "func": "chiamotlabai",
+      "params": []
+    },
+    {
+      "frame": 0.7,
+      "func": "player2",
+      "params": []
+    },
+    {
+      "frame": 1.0333333333333334,
+      "func": "player3",
+      "params": []
+    }
+  ]
+}

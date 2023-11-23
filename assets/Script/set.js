@@ -60,7 +60,9 @@ cc.Class({
         this.node.active = true;
 
         this.solabai =0;
-        this.node.getComponent(cc.Animation).play("chiabai");
+        if(_MyRoom.soNguoiChoi == 4)this.node.getComponent(cc.Animation).play("chiabai");
+        else if(_MyRoom.soNguoiChoi == 3)this.node.getComponent(cc.Animation).play("chiabai3");
+        else if(_MyRoom.soNguoiChoi == 2)this.node.getComponent(cc.Animation).play("chiabai2");
     },
     stopAnimationChiabai(){
         this.node.getComponent(cc.Animation).stop();

@@ -363,7 +363,7 @@
         "__id__": 37
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 39
@@ -1939,7 +1939,7 @@
         "__id__": 3621
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 3674
@@ -132497,6 +132497,12 @@
     "_clips": [
       {
         "__uuid__": "75b60f5f-7415-4022-8153-f32cee6b9cba"
+      },
+      {
+        "__uuid__": "cdc2a0ee-af41-45cc-bbed-52d1b6219810"
+      },
+      {
+        "__uuid__": "3d086d76-68ad-4913-ab23-bd91b1c4ec7f"
       }
     ],
     "playOnLoad": false,
