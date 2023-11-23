@@ -36,6 +36,35 @@ cc.Class({
     start() {
 
     },
+    addCardList(){
+        let arr = [];
+        let pool = window._MyRoom.cardRoom.mess.pool;
+        for (let i = 0; i < pool.length; i++) {
+            let _type = pool[i].type;
+            let _value = pool[i].value;
+            arr.push(_type * 100 + _value);
+            
+        }
+        return arr;
+    },
+    addAllPlayCard(){
+        let arr0 = [];
+        let arr1 = [];
+        let arr2= [];
+        let arr3 = [];
+        let _users = window._MyRoom.cardRoom.mess.users;
+
+
+        let MyID = _WS.ID;
+
+        for (let i = 0; i < _users.length; i++) {
+            i
+            
+        }
+
+
+    },
+    
     TraoBai() {
         this.cardOnTable0 = [];
         this.cardOnTable1 = [];
@@ -44,16 +73,16 @@ cc.Class({
         const _cardlist = [];
 
         // Bo bai
-        for (let i = 1; i < 5; i++) {
-            for (let j = 0; j < 13; j++) {
-                _cardlist.push(i * 100 + j);
-            }
-        }
+        // for (let i = 1; i < 5; i++) {
+        //     for (let j = 0; j < 13; j++) {
+        //         _cardlist.push(i * 100 + j);
+        //     }
+        // }
 
-        this.cardList = _cardlist;
+        this.cardList = this.addCardList();
 
         // chia bai
-        let SoNguoiChoi = 4;
+        let SoNguoiChoi = window._MyRoom.soNguoiChoi;
         let Nguoi10Con = 0;
         for (let m = 0; m < SoNguoiChoi; m++) {
             this.allPlayerCard[m] = [];

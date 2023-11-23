@@ -25,7 +25,7 @@ var _WS = {
     _WS.client
       .getAvailableRooms("cardGame")
       .then((rooms) => {
-        console.log("rooms", rooms);
+       // console.log("rooms", rooms);
       })
       .catch((e) => {
         console.error(e);
