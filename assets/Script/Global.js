@@ -22,21 +22,43 @@ window._MyRoom ={
     soNguoiChoi : 0,
     isStartGame(){
         this.soNguoiChoi =window._MyRoom.cardRoom.mess.users.length;
+        this.XepVitriNguoiChoi();
 
     },
-    ViTriNguoiChoi: null,
+    viTriNguoiChoi: null,
     XepVitriNguoiChoi(){
         let MyID = _WS.ID;
         let _users = window._MyRoom.cardRoom.mess.users;
-        for (let i = 0; i < _users.length; i++) {
+        this.viTriNguoiChoi = [];
+
+        let vitriUser = _MyRoom.nguoiChoiViTriSoMayTrongData(MyID,_users);
+        obj = new Object();
+        obj.id = MyID;
+        obj.idTrongArr = vitriUser;
+        obj.viTriTrenBan = 0;
+
+        this.viTriNguoiChoi.push(obj);
+
+        if(_users.length == 2){
+            for (let i = 0; i < _users.length; i++) {
+                if(i != vitriUser){
+                    obj = new Object();
+                    obj.id = _users[i].id;
+                    obj.idTrongArr = 1;
+                    obj.viTriTrenBan = 1;
             
-            
+                    this.viTriNguoiChoi.push(obj);
+                }
+                
+            }
         }
 
+        return this.ViTriNguoiChoi;
+
     },
-    nguoiChoiViTriSoMayTrongData(id,data){
+    nguoiChoiViTriSoMayTrongData(xid,data){
         for (let i = 0; i < data.length; i++) {
-            
+            if(data[i].id == xid) return i;
           //  id
         }
     }

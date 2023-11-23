@@ -48,29 +48,33 @@ cc.Class({
         return arr;
     },
     addAllPlayCard(){
-        let arr0 = [];
-        let arr1 = [];
-        let arr2= [];
-        let arr3 = [];
+
         let _users = window._MyRoom.cardRoom.mess.users;
 
 
-        let MyID = _WS.ID;
-
-        for (let i = 0; i < _users.length; i++) {
-            i
+        let vitri = window._MyRoom.viTriNguoiChoi;
+        for (let i = 0; i < vitri.length; i++) {
+            this.allPlayerCard[i] = [];
+            for (let j = 0; j < _users[i].cards.length; j++) {
+                let _type = _users[i].cards[j].type;
+                let _value = _users[i].cards[j].value;
+                var cardObj = new Object();
+                cardObj.id = _type * 100 + _value;
+                cardObj.cardStatus = 0;
+                this.allPlayerCard[i].push(cardObj)
+            }
             
         }
 
 
+
     },
-    
+
     TraoBai() {
         this.cardOnTable0 = [];
         this.cardOnTable1 = [];
         this.cardOnTable2 = [];
         this.cardOnTable3 = [];
-        const _cardlist = [];
 
         // Bo bai
         // for (let i = 1; i < 5; i++) {
@@ -83,32 +87,7 @@ cc.Class({
 
         // chia bai
         let SoNguoiChoi = window._MyRoom.soNguoiChoi;
-        let Nguoi10Con = 0;
-        for (let m = 0; m < SoNguoiChoi; m++) {
-            this.allPlayerCard[m] = [];
-            for (let m1 = 0; m1 < 10; m1++) {
-                let socardconlai = this.cardList.length;
-                let randomx = Math.floor(Math.random() * socardconlai);
-                if (m != Nguoi10Con) {
-                    if (m1 < 9) {
-                        var cardObj = new Object();
-                        cardObj.id = this.cardList[randomx];
-                        cardObj.cardStatus = 0;
-
-                        this.allPlayerCard[m].push(cardObj)
-                        this.cardList.splice(randomx, 1);
-                    }
-                } else {
-                    var cardObj = new Object();
-                    cardObj.id = this.cardList[randomx];
-                    cardObj.cardStatus = 0;
-
-                    this.allPlayerCard[m].push(cardObj)
-                    this.cardList.splice(randomx, 1);
-                }
-            }
-
-        }
+        let _addAllPlayCard = this.addAllPlayCard();
         console.log(this.allPlayerCard);
         console.log(this.cardList);
         this.ChiaBaiLanDau(true);

@@ -49,11 +49,11 @@ cc.Class({
     },
     player2(){
         var Player1 = this.node.parent.getChildByName("Player2");
-        Player1.children[0].active = true;
+        if(Player1.children.length > 0) Player1.children[0].active = true;
     },
     player3(){
         var Player1 = this.node.parent.getChildByName("Player3");
-        Player1.children[0].active = true;
+        if(Player1.children.length > 0) Player1.children[0].active = true;
 
     },
     startAnimationChiabai(){
