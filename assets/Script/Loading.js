@@ -128,7 +128,7 @@ cc.Class({
 
 
     StartGame(){
-        this.isStartGame();
+        _MyRoom.isStartGame();
         this.node.parent.getChildByName("GamePlay").active = true;
         this.node.active = false;
     },
