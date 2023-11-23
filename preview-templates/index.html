@@ -1,0 +1,30 @@
+<html>
+<head>
+  <link rel="icon" href="app/editor/static/preview-templates/favicon.ico"></link>
+  <meta charset="utf-8">
+  <title>Land Map Viewer-NFT Castle Defense</title>
+  <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+  <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
+  <div id="splash">
+    <div class="progress-bar stripes">
+      <span style="width: 0%"></span>
+    </div>
+  </div>
+<script src="settings.js" charset="utf-8"></script>
+<script src="boot.js" charset="utf-8"></script>
+<script src="/socket.io/socket.io.js" charset="utf-8"></script>
+<script src="app/engine/bin/<%=cocos2d%>" charset="utf-8"></script>
+<script src="preview-scripts/__quick_compile__.js" charset="utf-8"></script>
+<script src="/jquery-2.1.1.min.js" charset="utf-8"></script>
+<script src="https://unpkg.com/colyseus.js@^0.14.0/dist/colyseus.js"></script>
+<script src="vconsole.min.js"></script>
+<script src="ws.js"></script>
+<script>
+ $('document').ready(function(){
+  _WS.init();
+ });
+</script>
+</body>
+</html>

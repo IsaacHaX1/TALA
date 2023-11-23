@@ -90,6 +90,25 @@ cc.Class({
 
       //  }
     },
+    hieuUngChiaBai1(){
+        this.uplabai();
+        this.node.active = false;
+
+
+    },
+    uplabai(){
+        for (let i = 0; i < 4; i++) {
+         //   for (let j = 0; j < 14; j++) {
+                 this.node.children[i + 1].active = false;
+           // }
+        }  
+    },
+    latlabai(){
+        for (let i = 0; i < 4; i++) {
+                 this.node.children[i + 1].active = true;
+          
+        }  
+    },
     cardBtn() {
        // console.log(this.cardStatus +" |idCard"+ this.idCard+" |idPlayer"+ this.idPlayer);
         //   if(this.idPlayer == 0){\
@@ -181,6 +200,7 @@ cc.Class({
             PlayerM.addChild(userIcon);
             this.node.active = false;
             self.scheduleOnce(function () {
+                userIcon.setScale(0.7);
                 var actionBy = cc.moveTo(0.5, cc.v2(player0123[this.idPlayer].posiCardM[0] + cardTBlength*25, player0123[this.idPlayer].posiCardM[1]));
                 userIcon.runAction(actionBy);
             }, 0.1);

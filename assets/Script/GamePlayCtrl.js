@@ -13,10 +13,10 @@ cc.Class({
         cardList: null,
         allPlayerCard: [],
         cardOnTable0: [],
-        phom0 :[[101,102,103,104],[201,202,203]],
-        phom1:[[101,102,103,104],[201,202,203]],
-        phom2:[[101,102,103,104],[201,202,203]],
-        phom3 :[[101,102,103,104],[201,202,203]],
+        phom0: [],
+        phom1: [],
+        phom2: [],
+        phom3: [],
         cardOnTable1: [],
         cardOnTable2: [],
         cardOnTable3: [],
@@ -26,7 +26,12 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad() {
+        this.phom0 = playerX.phom0;
+        this.phom1 = playerX.phom1;
+        this.phom2 = playerX.phom2;
+        this.phom3 = playerX.phom3;
+    },
 
     start() {
 
@@ -77,7 +82,49 @@ cc.Class({
         }
         console.log(this.allPlayerCard);
         console.log(this.cardList);
-        this.ChiaBai(true);
+        this.ChiaBaiLanDau(true);
+
+    },
+    ChiaBaiLanDau(){
+        var self = this;
+        var CardTable = this.node.getChildByName("CardTable");
+        // xóa hết bài trên bàn
+        for (let i = 0; i < 8; i++) {
+            var playerx = CardTable.children[i];
+            playerx.removeAllChildren(true);
+        }
+
+        for (let i = 0; i < this.allPlayerCard.length; i++) {
+            var playerx = CardTable.children[i * 2];
+
+            var cardOf1Player = this.allPlayerCard[i];
+
+            for (let j = 0; j < cardOf1Player.length; j++) {
+                var posix = player0123[i].posiCard[0];
+                var posiy = player0123[i].posiCard[1];
+
+                var cardpf = cc.instantiate(this.card);
+                cardpf.setPosition(posix, posiy);
+                var _cardx = this.allPlayerCard[i][j];
+                cardpf.getComponent("card").VeLaBai(_cardx.id, _cardx.id, i);
+                cardpf.getComponent("card").hieuUngChiaBai1();
+
+                playerx.addChild(cardpf);
+            }
+
+        }
+
+        self.scheduleOnce(function() {
+            var set = this.node.getChildByName("CardTable").getChildByName("set");
+            set.getComponent("set").startAnimationChiabai();
+
+        },1)
+    },
+    LatBaiVuaChia(){
+        var Player0 = this.node.getChildByName("CardTable").getChildByName("Player0");
+        for (let i = 0; i < Player0.children.length; i++) {
+            Player0.children[i].getComponent("card").latlabai();
+        }
 
     },
     ChiaBai() {
@@ -101,6 +148,8 @@ cc.Class({
                 cardpf.setPosition(posix, posiy);
                 var _cardx = this.allPlayerCard[i][j];
                 cardpf.getComponent("card").VeLaBai(_cardx.id, _cardx.id, i);
+               // cardpf.getComponent("card").hieuUngChiaBai1();
+
                 playerx.addChild(cardpf);
             }
 
@@ -120,18 +169,19 @@ cc.Class({
             if (i1 == 2) cardOf1Player = this.cardOnTable2;
             if (i1 == 3) cardOf1Player = this.cardOnTable3;
             for (let j1 = 0; j1 < cardOf1Player.length; j1++) {
-                var posix = player0123[i1].posiCardM[0]+(j1+1)*25;
+                var posix = player0123[i1].posiCardM[0] + (j1 + 1) * 25;
                 var posiy = player0123[i1].posiCardM[1];
 
                 var cardpf = cc.instantiate(this.card);
-                cardpf.setPosition(posix, posiy)
-              //  cardpf.getComponent("card").VeLaBai(this.cardOnTable0[j1], j1, i1);
-              console.log(cardOf1Player[j1]);
-            var obj = new Object();
-            obj.type = Math.floor(cardOf1Player[j1]/100);
-            obj.value = cardOf1Player[j1]%100;
-            obj.idCard = cardOf1Player;
-            obj.idPlayer = i1;
+                cardpf.setPosition(posix, posiy);
+               cardpf.setScale(0.7);
+
+                console.log(cardOf1Player[j1]);
+                var obj = new Object();
+                obj.type = Math.floor(cardOf1Player[j1] / 100);
+                obj.value = cardOf1Player[j1] % 100;
+                obj.idCard = cardOf1Player;
+                obj.idPlayer = i1;
 
                 cardpf.getComponent("card").DanhLabai(obj)
                 playerM.addChild(cardpf);
@@ -230,7 +280,7 @@ cc.Class({
 
         }
         if (_idplayer == 1) {
-            return  this.cardOnTable1;
+            return this.cardOnTable1;
 
         }
         if (_idplayer == 2) {
@@ -238,8 +288,8 @@ cc.Class({
 
         }
         if (_idplayer == 3) {
-            return  this.cardOnTable3;
- 
+            return this.cardOnTable3;
+
         }
     },
 
@@ -260,7 +310,7 @@ cc.Class({
         let vitri0 = 0;
         var arrSort2 = [];
         for (let i = 0; i < array.length; i++) {
-            if(array[i].cardStatus  == 100){
+            if (array[i].cardStatus == 100) {
                 arrSort2.push(array[i]);
 
             }
@@ -294,7 +344,7 @@ cc.Class({
         }
 
     },
-    checkBaiCungSo(cardid){
+    checkBaiCungSo(cardid) {
         //console.log(arr);
         var arr = this.LaBaiCungSo(cardid);
         if (arr.length >= 3) {
@@ -319,21 +369,21 @@ cc.Class({
         return arr;
 
     },
-    checkBaiCungChat(cardid){
+    checkBaiCungChat(cardid) {
         var arr = this.LaBaiCungChat(cardid);
-        if(arr.length > 2){
+        if (arr.length > 2) {
             console.log("ăn được phỏm cùng chất " + arr.length);
             this.NhapNhay(arr);
         }
     },
-    NhapNhay(arrz){
+    NhapNhay(arrz) {
         var Player0 = this.node.getChildByName("CardTable").getChildByName("Player0");
         var PlayerM = this.node.getChildByName("CardTable").getChildByName("PlayerM3");
         for (let i = 0; i < Player0.children.length; i++) {
             for (let j = 0; j < arrz.length; j++) {
-                if(Player0.children[i].getComponent("card").idCard == arrz[j]) Player0.children[i].getComponent("card").playAnimationPingpong();
+                if (Player0.children[i].getComponent("card").idCard == arrz[j]) Player0.children[i].getComponent("card").playAnimationPingpong();
             }
-            
+
         }
 
         // var lengthM = PlayerM.length;
@@ -342,17 +392,17 @@ cc.Class({
 
         // }
     },
-    DungNhapNhay(){
+    DungNhapNhay() {
         var Player0 = this.node.getChildByName("CardTable").getChildByName("Player0");
         var PlayerM = this.node.getChildByName("CardTable").getChildByName("PlayerM3");
         for (let i = 0; i < Player0.length; i++) {
-         //   for (let j = 0; j < arrz.length; j++) {
-                Player0[i].getComponent("card").stopAnimationPingpong();
-          //  }
-            
+            //   for (let j = 0; j < arrz.length; j++) {
+            Player0[i].getComponent("card").stopAnimationPingpong();
+            //  }
+
         }
         var lengthM = PlayerM.length;
-            PlayerM[lengthM-1].getComponent("card").stopAnimationPingpong();
+        PlayerM[lengthM - 1].getComponent("card").stopAnimationPingpong();
 
     },
     LaBaiCungChat(cardid) {
@@ -464,28 +514,156 @@ cc.Class({
             for (let k = 0; k < arrLui.length; k++) {
                 let arraylui1item = arrLui[k];
                 arrTien.push(arraylui1item);
-                
+
             }
         }
         //console.log(arrTien);
         return arrTien;
 
 
-        
+
+
+
+    },
+    HaPhom0() {
+        var Player0 = this.node.getChildByName("CardTable").getChildByName("Player0");
+        var PlayerM0 = this.node.getChildByName("CardTable").getChildByName("PlayerM0");
+
+        let iAr = 0;
+
+        for (let i = 0; i < this.phom0.length; i++) {
+            for (let j = 0; j < this.phom0[i].length; j++) {
+                var userIcon = cc.instantiate(this.card);
+                userIcon.setPosition(player0123[iAr].posiCard[0] + j * 50, player0123[iAr].posiCard[1] -i*50); 
+                var OneCard= this.phom0[i][j];
+                var obj = new Object();
+                obj.type = Math.floor(OneCard / 100);
+                obj.value = OneCard % 100;
+                obj.idCard = OneCard;
+                obj.idPlayer = 0;
+                console.log(obj);
+                userIcon.getComponent("card").DanhLabai(obj);
+                PlayerM0.addChild(userIcon);
+
+            }
+        }
+        this.scheduleOnce(function () {
+            console.log(PlayerM0);
+            for (let i = 0; i < PlayerM0.children.length; i++) {
+                var oneItem = PlayerM0.children[i];
+               oneItem.setScale(0.7);
+                let x = oneItem.x;
+                let y = oneItem.y + 200; 
+                var actionBy = cc.moveTo(0.5, cc.v2(x, y));
+                oneItem.runAction(actionBy);
+            }
+
+        }, 0.1);
+        this.HaPhom1();
+        this.HaPhom2();
+        this.HaPhom3();
 
 
     },
-    HaPhom0(){
+    HaPhom1() {
+        var PlayerM0 = this.node.getChildByName("CardTable").getChildByName("PlayerM1");
+        let iAr = 1;
+        for (let i = 0; i < this.phom1.length; i++) {
+            for (let j = 0; j < this.phom1[i].length; j++) {
+                var userIcon = cc.instantiate(this.card);
+                userIcon.setPosition(player0123[iAr].posiCard[0] + j * 50, player0123[iAr].posiCard[1] -i*50); 
+                var OneCard= this.phom1[i][j];
+                var obj = new Object();
+                obj.type = Math.floor(OneCard / 100);
+                obj.value = OneCard % 100;
+                obj.idCard = OneCard;
+                obj.idPlayer = 0;
+                console.log(obj);
+                userIcon.getComponent("card").DanhLabai(obj);
+                PlayerM0.addChild(userIcon);
+
+            }
+        }
+        this.scheduleOnce(function () {
+            console.log(PlayerM0);
+            for (let i = 0; i < PlayerM0.children.length; i++) {
+                var oneItem = PlayerM0.children[i];
+              oneItem.setScale(0.7);
+
+                let x = oneItem.x -150;
+                let y = oneItem.y; 
+                var actionBy = cc.moveTo(0.5, cc.v2(x, y));
+                oneItem.runAction(actionBy);
+            }
+
+        }, 0.1);
 
     },
-    HaPhom1(){
+    HaPhom2() {
+        var PlayerM0 = this.node.getChildByName("CardTable").getChildByName("PlayerM2");
+        let iAr = 2;
+        for (let i = 0; i < this.phom2.length; i++) {
+            for (let j = 0; j < this.phom2[i].length; j++) {
+                var userIcon = cc.instantiate(this.card);
+                userIcon.setPosition(player0123[iAr].posiCard[0] + j * 50, player0123[iAr].posiCard[1] -i*50); 
+                var OneCard= this.phom2[i][j];
+                var obj = new Object();
+                obj.type = Math.floor(OneCard / 100);
+                obj.value = OneCard % 100;
+                obj.idCard = OneCard;
+                obj.idPlayer = 0;
+                console.log(obj);
+                userIcon.getComponent("card").DanhLabai(obj);
+                PlayerM0.addChild(userIcon);
 
-    },
-    HaPhom2(){
+            }
+        }
+        this.scheduleOnce(function () {
+            console.log(PlayerM0);
+            for (let i = 0; i < PlayerM0.children.length; i++) {
+                var oneItem = PlayerM0.children[i];
+             oneItem.setScale(0.7);
 
+                let x = oneItem.x;
+                let y = oneItem.y-150; 
+                var actionBy = cc.moveTo(0.5, cc.v2(x, y));
+                oneItem.runAction(actionBy);
+            }
+
+        }, 0.1);
     },
-    HaPhom3(){
-        
+    HaPhom3() {
+        var PlayerM0 = this.node.getChildByName("CardTable").getChildByName("PlayerM3");
+        let iAr = 3;
+        for (let i = 0; i < this.phom3.length; i++) {
+            for (let j = 0; j < this.phom3[i].length; j++) {
+                var userIcon = cc.instantiate(this.card);
+                userIcon.setPosition(player0123[iAr].posiCard[0] + j * 50, player0123[iAr].posiCard[1] -i*50); 
+                var OneCard= this.phom3[i][j];
+                var obj = new Object();
+                obj.type = Math.floor(OneCard / 100);
+                obj.value = OneCard % 100;
+                obj.idCard = OneCard;
+                obj.idPlayer = 0;
+                console.log(obj);
+                userIcon.getComponent("card").DanhLabai(obj);
+                PlayerM0.addChild(userIcon);
+
+            }
+        }
+        this.scheduleOnce(function () {
+            console.log(PlayerM0);
+            for (let i = 0; i < PlayerM0.children.length; i++) {
+                var oneItem = PlayerM0.children[i];
+              oneItem.setScale(0.7);
+
+                let x = oneItem.x +150;
+                let y = oneItem.y; 
+                var actionBy = cc.moveTo(0.5, cc.v2(x, y));
+                oneItem.runAction(actionBy);
+            }
+
+        }, 0.1);
     }
     // update (dt) {},
 });

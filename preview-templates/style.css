@@ -1,0 +1,89 @@
+@font-face {
+  font-family: HelveticaRoundedLTStd;
+  src: url("./res/loading/HelveticaRoundedLTStd-Bd.woff");
+}
+
+html,
+body {
+	min-height: 100%;
+}
+html {
+  -ms-touch-action: none;
+}
+body {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font-family: Helvetica, Verdana, Arial, sans-serif;
+}
+body, canvas, div {
+	outline: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-khtml-user-select: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+canvas {
+	background-color: rgba(0, 0, 0, 0);
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	/* display: none; <- Crashes Chrome on hover */
+	-webkit-appearance: none;
+	margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+#splash {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background: url(./res/loading/splash.jpg) no-repeat center;
+	background-size: cover;
+}
+.progress-bar {
+	left: 9%;
+	bottom: 3%;
+	height: 2.5%;
+	width: 82%;
+	padding: 1px;
+	background: #000;
+	position: absolute;
+	border: 1px solid #666;
+}
+.progress-bar span {
+	height: 100%;
+	display: block;
+    background: url(./res/loading/loadingBar.jpg);
+    background-size: auto 100%;
+    background-repeat: repeat-x;
+}
+#splashText {
+	top: 0;
+	left: 0;
+	color: #fff;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	position: absolute;
+	font-size: large;/* 1.2vw;*/
+    font-family: HelveticaRoundedLTStd;
+}
+#splashText:after {
+	content: "";
+	height: 100%;
+	vertical-align: middle;
+	display: inline-block;
+}
+.splashImg {
+    width: 100%;
+    bottom: 170%;
+    position: absolute;
+    text-align: center;
+	transform: scale(1.2); 
+}
+.splashImg img {
+	/* max-width: 11.5625vw; */
+}

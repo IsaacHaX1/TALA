@@ -34,8 +34,9 @@ cc.Class({
 
     },
     ShowLoading(){
-        
-    }
+        this.node.getChildByName("loadingpro").active = true;
+    },
+    //Show
 
     // update (dt) {},
 });
