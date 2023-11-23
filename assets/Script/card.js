@@ -182,9 +182,22 @@ cc.Class({
         let toadoy = self.node.y;
 
         if (this.cardStatus == 1) {
+            obj = new Object();
+            obj.mess = "send";
+            obj.type = this.type;
+            obj.value = this.value;
+            _WS.sendCard = function (_mess) {
+                const mess = {
+                  mess: "send",
+                  type: 1,
+                  value: 1,
+                };
+                if (_WS.enable) _WS.room.send("action", obj);
+              };
             // this.type = Math.floor(valueAll/100);
             // this.value = valueAll%100;
             var _cardNumber = this.type * 100 + this.value;
+            
             var _GamePlayNode= cc.find("Canvas/GamePlay");
             var arrCardTable = _GamePlayNode.getComponent("GamePlayCtrl").addCardOnTable(_cardNumber, this.idPlayer);
             console.log(arrCardTable);
