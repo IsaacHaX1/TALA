@@ -208,6 +208,7 @@ cc.Class({
     },
 
     AnPhom() {
+        cc.find("Canvas").getComponent("InitGame").playBtnS();
         if (this.allPlayerCard.length == 4) {
             var lengthx = this.cardOnTable3.length;
             if (lengthx > 0) {
@@ -305,6 +306,7 @@ cc.Class({
     },
 
     cardSort() {
+        cc.find("Canvas").getComponent("InitGame").playBtnS();
         var array = this.allPlayerCard[0];
         var size = array.length;
         for (var step = 1; step < size; step++) {
@@ -537,6 +539,7 @@ cc.Class({
 
     },
     HaPhom0() {
+        cc.find("Canvas").getComponent("InitGame").playBtnS();
         var Player0 = this.node.getChildByName("CardTable").getChildByName("Player0");
         var PlayerM0 = this.node.getChildByName("CardTable").getChildByName("PlayerM0");
 

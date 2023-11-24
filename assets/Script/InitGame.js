@@ -9,21 +9,10 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
+        buttonSound: {
+            default: null,
+            type: cc.AudioClip
+        }
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -36,7 +25,17 @@ cc.Class({
     ShowLoading(){
         this.node.getChildByName("Loading").active = true;
         this.node.getChildByName("GamePlay").active = false;
+        this.node.getChildByName("Finish").active = false;
+        this.node.getChildByName("Loading").getComponent("Loading").ShowLoading();
 
+    },
+
+    
+    playBtnS(){
+        if (Global.isSoundOn) {
+            cc.audioEngine.playEffect(this.buttonSound, false);
+        }
+      //  cc.find("Canvas").getComponent("InitGame").playBtnS();
     }
 
     // update (dt) {},

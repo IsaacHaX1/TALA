@@ -34,6 +34,7 @@ cc.Class({
 
     },
     DanhBai(){
+        cc.find("Canvas").getComponent("InitGame").playBtnS();
         var getCardPlayer = this.node.getChildByName(player0123[window.Global.PlayerSelect].name);
         for (let i = 0; i < getCardPlayer.children.length; i++) {
             let getSelectCard = getCardPlayer.children[i];

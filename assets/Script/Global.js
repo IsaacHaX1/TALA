@@ -54,6 +54,20 @@ window._MyRoom ={
             }
         }
 
+        if(_users.length == 3                                                           ){
+            for (let i = 0; i < _users.length; i++) {
+                if(i != vitriUser){
+                    obj = new Object();
+                    obj.id = _users[i].id;
+                    obj.idTrongArr = i;
+                    obj.viTriTrenBan = 1;
+            
+                    this.viTriNguoiChoi.push(obj);
+                }
+                
+            }
+        }
+
         return this.ViTriNguoiChoi;
 
     },

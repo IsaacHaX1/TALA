@@ -35,7 +35,7 @@ cc.Class({
     // onLoad () {},
 
     start() {
-        this.ShowLoading();
+       // this.ShowLoading();
     },
     ShowLoading() {
         //  this.node.getChildByName("loadingpro").active = true;
@@ -50,6 +50,7 @@ cc.Class({
     },
     btnReady() {
         var self = this;
+        cc.find("Canvas").getComponent("InitGame").playBtnS();
         // this.getLobby(function(res){
         //     console.log("roomx ",res);
         //     self.JoinOppoX();
@@ -77,6 +78,7 @@ cc.Class({
     },
     btnJoinRoom() {
         var self = this;
+        cc.find("Canvas").getComponent("InitGame").playBtnS();
         _WSL.JoinOppo(function (res) {
             console.log(res);
             if (res.hasJoined) {
@@ -91,6 +93,7 @@ cc.Class({
     },
     btnPlay() {
         _WS.start();
+        cc.find("Canvas").getComponent("InitGame").playBtnS();
         
     },
     nguoiChoiCheck() {
@@ -154,8 +157,15 @@ cc.Class({
         var txt = "Chờ chủ phòng sẵn sàng";
         this.node.getChildByName("SoNguoi").getComponent(cc.Label).string = txt;
 
-    }
+    },
 
+    Test(){
+        this.node.parent.getChildByName("Finish").active = true;
+        this.node.parent.getChildByName("Finish").getChildByName("Win").active = true;
+        this.node.parent.getChildByName("Finish").getChildByName("Lose").active = false;
+
+
+    }
 
 
     // update (dt) {},

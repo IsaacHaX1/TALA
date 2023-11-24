@@ -34,5 +34,15 @@ cc.Class({
 
     },
 
+    Close(){
+        this.node.parent.getComponent("InitGame").start();
+        cc.find("Canvas").getComponent("InitGame").playBtnS();
+    },
+    Take(){
+        this.node.parent.getComponent("InitGame").start();
+        cc.find("Canvas").getComponent("InitGame").playBtnS();
+
+    }
+
     // update (dt) {},
 });
