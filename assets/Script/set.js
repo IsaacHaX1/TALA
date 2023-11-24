@@ -44,7 +44,7 @@ cc.Class({
     },
     player1(){
         var Player1 = this.node.parent.getChildByName("Player1");
-        Player1.children[0].active = true;
+        if(Player1.children.length > 0) Player1.children[0].active = true;
 
     },
     player2(){

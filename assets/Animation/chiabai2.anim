@@ -70,6 +70,11 @@
       "params": []
     },
     {
+      "frame": 0.6833333333333333,
+      "func": "player1",
+      "params": []
+    },
+    {
       "frame": 1.3833333333333333,
       "func": "player3",
       "params": []
