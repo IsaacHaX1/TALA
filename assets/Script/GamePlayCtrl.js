@@ -36,6 +36,11 @@ cc.Class({
     start() {
 
     },
+    backToLoading(){
+        cc.find("Canvas").getComponent("InitGame").ShowLoading();
+        cc.find("Canvas").getComponent("InitGame").playBtnS();
+        //ShowLoading()
+    },
     addCardList(){
         let arr = [];
         let pool = window._MyRoom.cardRoom.mess.pool;
@@ -78,6 +83,15 @@ cc.Class({
         this.cardOnTable1 = [];
         this.cardOnTable2 = [];
         this.cardOnTable3 = [];
+        let SoNguoiChoi = window._MyRoom.soNguoiChoi;
+
+        // an hien avata nguoi choi tren ban
+        let _user = this.node.getChildByName("Hud").getChildByName("user");
+        for (let i = 0; i < _user.children.length; i++) {
+            if((i+1) > SoNguoiChoi) _user.children[i].active = false;
+            else _user.children[i].active = true;
+            
+        }
 
         // Bo bai
         // for (let i = 1; i < 5; i++) {
@@ -89,7 +103,6 @@ cc.Class({
         this.cardList = this.addCardList();
 
         // chia bai
-        let SoNguoiChoi = window._MyRoom.soNguoiChoi;
         let _addAllPlayCard = this.addAllPlayCard();
         console.log(this.allPlayerCard);
         console.log(this.cardList);

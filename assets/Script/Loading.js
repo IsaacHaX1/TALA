@@ -45,6 +45,8 @@ cc.Class({
         this.node.getChildByName("loadingpro").active = false;
         this.node.getChildByName("btn_play").active = false;
         window._MyRoom.isGamePlay = null;
+        this.node.getChildByName("SoNguoi").getComponent(cc.Label).string = "";
+        this.node.getChildByName("SoNguoi2").getComponent(cc.Label).string =  "";
 
 
     },
@@ -134,6 +136,7 @@ cc.Class({
         _MyRoom.isStartGame();
         this.node.parent.getChildByName("GamePlay").active = true;
         this.node.active = false;
+        this.node.parent.getChildByName("GamePlay").getComponent("GamePlayCtrl").TraoBai();
     },
 
 
@@ -150,19 +153,23 @@ cc.Class({
     soNguoi(num) {
         var txt = "Số Người trong phòng : ";
         this.node.getChildByName("SoNguoi").getComponent(cc.Label).string = txt + num;
+        this.node.getChildByName("SoNguoi2").getComponent(cc.Label).string =  "Một phòng có tối đa 4 người chơi";
+
 
 
     },
     txtKhach() {
         var txt = "Chờ chủ phòng sẵn sàng";
         this.node.getChildByName("SoNguoi").getComponent(cc.Label).string = txt;
+        this.node.getChildByName("SoNguoi2").getComponent(cc.Label).string =  "";
+
 
     },
 
     Test(){
         this.node.parent.getChildByName("Finish").active = true;
-        this.node.parent.getChildByName("Finish").getChildByName("Win").active = true;
-        this.node.parent.getChildByName("Finish").getChildByName("Lose").active = false;
+     //   this.node.parent.getChildByName("Finish").getChildByName("Win").active = true;
+      //  this.node.parent.getChildByName("Finish").getChildByName("Lose").active = false;
 
 
     }

@@ -31,6 +31,27 @@ cc.Class({
     // onLoad () {},
 
     start () {
+        this.Nhat();
+    },
+    finish(){
+
+    },
+
+    Nhat(){
+        this.node.getChildByName("titleLabel").getComponent(cc.Label).string = "NHẤT";
+        this.node.getChildByName("popup_frame").getComponent(cc.Button).interactable = true;
+      //  .interactable = true;
+
+    },
+    Nhi(){
+        this.node.getChildByName("titleLabel").getComponent(cc.Label).string = "NHÌ";
+    },
+    Ba(){
+        this.node.getChildByName("titleLabel").getComponent(cc.Label).string = "BA";
+
+    },
+    Bet(){
+        this.node.getChildByName("titleLabel").getComponent(cc.Label).string = "BÉT";
 
     },
 

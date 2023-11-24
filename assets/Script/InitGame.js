@@ -32,9 +32,9 @@ cc.Class({
 
     
     playBtnS(){
-        if (Global.isSoundOn) {
+       // if (Global.isSoundOn) {
             cc.audioEngine.playEffect(this.buttonSound, false);
-        }
+        //}
       //  cc.find("Canvas").getComponent("InitGame").playBtnS();
     }
 
