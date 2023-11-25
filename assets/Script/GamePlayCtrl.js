@@ -849,6 +849,7 @@ cc.Class({
 
             // check 2 nguoi choi
             let listcardTurn = mss.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cardTurn;
+            this.checkListCardTurn(mss.mess.users);
                 if(this.cardOnTable0.length < listcardTurn.length){
                     let onecardTurn = listcardTurn[listcardTurn.length -1];
                     console.log(onecardTurn);
@@ -879,4 +880,72 @@ cc.Class({
 
         }
     },
+    checkListCardTurn(users){
+        let _users = users;
+        var list0 = [];
+        var list1 = [];
+        var list2 = [];
+        var list3 = [];
+        let soNguoiChoiTrongRoom = _users.length;
+        for (let i = 0; i < _users.length; i++) {
+            let listCardTurn = _users[i].cardTurn;
+            for (let j = 0; j < listCardTurn.length; j++) {
+                if(i == 0){
+                    list0.push(listCardTurn[j]);
+                }
+                if(i == 1){
+                    list1.push(listCardTurn[j]);
+                }
+                if(i == 2){
+                    list2.push(listCardTurn[j]);
+                }
+                if(i == 3){
+                    list3.push(listCardTurn[j]);
+                }            
+            }            
+        }
+
+        if(soNguoiChoiTrongRoom == 2){
+            let length2_0 = list0.length;
+            let length2_1 = list1.length;
+            if(length2_1 > length2_0){
+                console.log(" nguoi choi 0sv danh bai cho 1sv"); // 0sv danh sach theo server
+            }else{
+                if(length2_1 < length2_0){
+                    console.log(" nguoi choi 1sv danh bai cho 0sv"); // 0sv danh sach theo server
+
+                }else{
+                    console.log(" nguoi choi 1sv 0sv chua danh bai"); // 0sv danh sach theo server
+                }
+            }
+        }
+
+        if(soNguoiChoiTrongRoom == 3){
+            let length3_0 = list0.length;
+            let length3_1 = list1.length;
+            let length3_2 = list2.length;
+
+            if(length3_1 > length3_0){
+                console.log(" nguoi choi 0sv danh bai cho 1sv ",length2_1); // 0sv danh sach theo server
+            }else{
+                console.log("-0sv ",length2_1); // 0sv danh sach theo server
+            }
+
+            if(length3_2 > length3_1){
+                console.log(" nguoi choi 1sv danh bai cho 2sv ",length3_1); 
+            }else{
+                console.log(" -1sv ",length3_1); // nguoi choi 1sv chua danh bai 
+            }
+
+            if(length3_2 > length3_1){
+                console.log(" nguoi choi 1sv danh bai cho 2sv ",length3_1); 
+            }else{
+                console.log(" -1sv ",length3_1); // nguoi choi 1sv chua danh bai 
+            }
+        }
+
+
+
+
+    }
 });
