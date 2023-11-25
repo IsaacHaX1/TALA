@@ -76,7 +76,7 @@ cc.Class({
       //  console.log("idPlayer " + latBai);
             for (let i = 0; i < 4; i++) {
                 for (let j = 0; j < 14; j++) {
-                    if (type == (i + 1) && value == j) this.node.children[i + 1].children[j].active = true;
+                    if (type == (i + 1) && (value-1) == j) this.node.children[i + 1].children[j].active = true;
                     else this.node.children[i + 1].children[j].active = false;
                 }
             }
@@ -174,6 +174,10 @@ cc.Class({
         }
 
     },
+    onCollisionEnter: function (other, self){
+        console.log(other);
+        console.log(self);
+    },
 
     // danh la bai nay
     danhBai() {
@@ -182,26 +186,20 @@ cc.Class({
         let toadoy = self.node.y;
 
         if (this.cardStatus == 1) {
+            /// danh bai api
             obj = new Object();
             obj.mess = "send";
             obj.type = this.type;
             obj.value = this.value;
-            _WS.sendCard = function (_mess) {
-                const mess = {
-                  mess: "send",
-                  type: 1,
-                  value: 1,
-                };
-                if (_WS.enable) _WS.room.send("action", obj);
-              };
+            _WS.sendCard(obj);
+
             // this.type = Math.floor(valueAll/100);
             // this.value = valueAll%100;
             var _cardNumber = this.type * 100 + this.value;
             
             var _GamePlayNode= cc.find("Canvas/GamePlay");
             var arrCardTable = _GamePlayNode.getComponent("GamePlayCtrl").addCardOnTable(_cardNumber, this.idPlayer);
-            console.log(arrCardTable);
-            console.log(arrCardTable.length);
+
             var cardTBlength = arrCardTable.length
 
             this.cardStatus = 2;

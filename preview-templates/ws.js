@@ -58,9 +58,10 @@ var _WS = {
       }
     });
     _WS.room.onMessage("action", (message) => {
-      if (message.clientID != _WS.ID) {
+     // if (message.clientID != _WS.ID) {
+      console.log("action x1");
         console.log(message);
-      }
+     // }
     });
     _WS.room.onMessage("start", (message) => {
       _WS.state = "start";
@@ -142,16 +143,17 @@ var _WS = {
       });
   };
   
-  _WS.sendCard = function (_mess) {
+  _WS.getPool = function () {
     const mess = {
-      mess: "send",
+      mess: "getPool",
       type: 1,
       value: 1,
     };
     if (_WS.enable) _WS.room.send("action", mess);
   };
-  _WS.sendMess = function (_mess) {
-    //if (_WS.enable) _WS.room.send("action", { placed: _idx });
+  _WS.sendCard = function (_mess) {
+    console.log(_mess);
+    if (_WS.enable) _WS.room.send("action", _mess);
   };
   
   _WS.start = function (_mess) {
@@ -162,4 +164,6 @@ var _WS = {
     }
     //_WS.users
   };
+
+  
   

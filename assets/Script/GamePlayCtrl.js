@@ -5,6 +5,8 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
+const { log } = require("console");
+
 cc.Class({
     extends: cc.Component,
 
@@ -34,25 +36,26 @@ cc.Class({
     },
 
     start() {
-
+        this.needUpdate = false;
     },
-    backToLoading(){
+    backToLoading() {
         cc.find("Canvas").getComponent("InitGame").ShowLoading();
         cc.find("Canvas").getComponent("InitGame").playBtnS();
         //ShowLoading()
     },
-    addCardList(){
+    addCardList() {
         let arr = [];
         let pool = window._MyRoom.cardRoom.mess.pool;
         for (let i = 0; i < pool.length; i++) {
             let _type = pool[i].type;
             let _value = pool[i].value;
             arr.push(_type * 100 + _value);
-            
+
         }
         return arr;
     },
-    addAllPlayCard(){
+
+    addAllPlayCard() {
 
         let _users = window._MyRoom.cardRoom.mess.users;
 
@@ -71,7 +74,7 @@ cc.Class({
                 this.allPlayerCard[i].push(cardObj)
 
             }
-            
+
         }
 
 
@@ -88,9 +91,9 @@ cc.Class({
         // an hien avata nguoi choi tren ban
         let _user = this.node.getChildByName("Hud").getChildByName("user");
         for (let i = 0; i < _user.children.length; i++) {
-            if((i+1) > SoNguoiChoi) _user.children[i].active = false;
+            if ((i + 1) > SoNguoiChoi) _user.children[i].active = false;
             else _user.children[i].active = true;
-            
+
         }
 
         // Bo bai
@@ -107,9 +110,10 @@ cc.Class({
         console.log(this.allPlayerCard);
         console.log(this.cardList);
         this.ChiaBaiLanDau(true);
+        this.checkMess();
 
     },
-    ChiaBaiLanDau(){
+    ChiaBaiLanDau() {
         var self = this;
         var CardTable = this.node.getChildByName("CardTable");
         // xóa hết bài trên bàn
@@ -138,13 +142,13 @@ cc.Class({
 
         }
 
-        self.scheduleOnce(function() {
+        self.scheduleOnce(function () {
             var set = this.node.getChildByName("CardTable").getChildByName("set");
             set.getComponent("set").startAnimationChiabai();
 
-        },1)
+        }, 1)
     },
-    LatBaiVuaChia(){
+    LatBaiVuaChia() {
         var Player0 = this.node.getChildByName("CardTable").getChildByName("Player0");
         for (let i = 0; i < Player0.children.length; i++) {
             Player0.children[i].getComponent("card").latlabai();
@@ -158,7 +162,7 @@ cc.Class({
             var playerx = CardTable.children[i];
             playerx.removeAllChildren(true);
         }
-
+        console.log(this.allPlayerCard);
         for (let i = 0; i < this.allPlayerCard.length; i++) {
             var playerx = CardTable.children[i * 2];
 
@@ -172,7 +176,7 @@ cc.Class({
                 cardpf.setPosition(posix, posiy);
                 var _cardx = this.allPlayerCard[i][j];
                 cardpf.getComponent("card").VeLaBai(_cardx.id, _cardx.id, i);
-               // cardpf.getComponent("card").hieuUngChiaBai1();
+                // cardpf.getComponent("card").hieuUngChiaBai1();
 
                 playerx.addChild(cardpf);
             }
@@ -198,7 +202,7 @@ cc.Class({
 
                 var cardpf = cc.instantiate(this.card);
                 cardpf.setPosition(posix, posiy);
-               cardpf.setScale(0.7);
+                cardpf.setScale(0.7);
 
                 console.log(cardOf1Player[j1]);
                 var obj = new Object();
@@ -221,7 +225,11 @@ cc.Class({
     },
 
     AnPhom() {
+        var self = this;
         cc.find("Canvas").getComponent("InitGame").playBtnS();
+        var tableCard = this.node.getChildByName("CardTable").getChildByName("PlayerM0");
+        var handCard = this.node.getChildByName("CardTable").getChildByName("Player0");
+
         if (this.allPlayerCard.length == 4) {
             var lengthx = this.cardOnTable3.length;
             if (lengthx > 0) {
@@ -231,7 +239,8 @@ cc.Class({
 
                 this.allPlayerCard[0].push(cardObj);
                 this.cardOnTable3.splice(lengthx - 1, 1);
-                this.ChiaBai(false);
+                tableCard = this.node.getChildByName("CardTable").getChildByName("PlayerM3");
+                //   this.ChiaBai(false);
             }
 
         }
@@ -245,7 +254,9 @@ cc.Class({
 
                 this.allPlayerCard[0].push(cardObj);
                 this.cardOnTable2.splice(lengthx - 1, 1);
-                this.ChiaBai(false);
+                tableCard = this.node.getChildByName("CardTable").getChildByName("PlayerM2");
+
+                // this.ChiaBai(false);
             }
 
         }
@@ -259,13 +270,39 @@ cc.Class({
 
                 this.allPlayerCard[0].push(cardObj);
                 this.cardOnTable1.splice(lengthx - 1, 1);
-                this.ChiaBai(false);
+                tableCard = this.node.getChildByName("CardTable").getChildByName("PlayerM1");
+
+                // this.ChiaBai(false);
             }
 
         }
-        console.log(this.cardOnTable0 + "|" + this.cardOnTable1 + "|" + this.cardOnTable2 + "|" + this.cardOnTable3);
+
+        let xPos = tableCard.children[lengthx - 1].x;
+        let yPos = tableCard.children[lengthx - 1].y;
+        tableCard.children[lengthx - 1].destroy();
+
+        var obj = new Object();
+        obj.type = Math.floor(103 / 100);
+        obj.value = 103 % 100;
+        obj.idCard = 103;
+        obj.idPlayer = 0;
+
+        var userIcon = cc.instantiate(this.card);
+        userIcon.setPosition(xPos, yPos);
+        userIcon.getComponent("card").DanhLabai(obj)
+        tableCard.addChild(userIcon);
+
+        self.scheduleOnce(function () {
+            userIcon.setScale(1);
+            var actionBy = cc.moveTo(0.5, cc.v2(player0123[0].posiCard[0], player0123[0].posiCard[1]));
+            userIcon.runAction(actionBy);
+        }, 0.1);
+        //console.log(tableCard);
+        //this.node.getChildByName("CardTable").getChildByName("PlayerM0");
+        //console.log(this.cardOnTable0 + "|" + this.cardOnTable1 + "|" + this.cardOnTable2 + "|" + this.cardOnTable3);
 
     },
+
     addCardOnTable(_cardNumber, _idplayer) {
         if (_idplayer == 0) {
             this.cardOnTable0.push(_cardNumber);
@@ -294,12 +331,13 @@ cc.Class({
                 this.checkBaiCungChat(_cardNumber);
             }
         }
-        // xóa bài trên tay
+        console.log(_cardNumber+"||"+ _idplayer);
+       // xóa bài trên tay
         for (let i = 0; i < this.allPlayerCard[_idplayer].length; i++) {
             if (this.allPlayerCard[_idplayer][i].id == _cardNumber) this.allPlayerCard[_idplayer].splice(i, 1);
 
         }
-        //
+        
         if (_idplayer == 0) {
             return this.cardOnTable0;
 
@@ -316,6 +354,55 @@ cc.Class({
             return this.cardOnTable3;
 
         }
+    },
+
+    addCardOnTable2(_cardNumber, _idplayer) {
+        if (_idplayer == 0) {
+            this.cardOnTable0.push(_cardNumber);
+
+        }
+        if (_idplayer == 1) {
+            this.cardOnTable1.push(_cardNumber);
+            if (this.allPlayerCard.length == 2) {
+                this.checkBaiCungSo(_cardNumber);
+                this.checkBaiCungChat(_cardNumber);
+
+            }
+        }
+        if (_idplayer == 2) {
+            this.cardOnTable2.push(_cardNumber);
+            if (this.allPlayerCard.length == 3) {
+                this.checkBaiCungSo(_cardNumber);
+                this.checkBaiCungChat(_cardNumber);
+
+            }
+        }
+        if (_idplayer == 3) {
+            this.cardOnTable3.push(_cardNumber);
+            if (this.allPlayerCard.length == 4) {
+                this.checkBaiCungSo(_cardNumber);
+                this.checkBaiCungChat(_cardNumber);
+            }
+        }
+      //  console.log(_cardNumber+"||"+ _idplayer);
+       // xóa bài trên tay
+       if (_idplayer == 0) {
+        return this.cardOnTable0;
+
+    }
+    if (_idplayer == 1) {
+        return this.cardOnTable1;
+
+    }
+    if (_idplayer == 2) {
+        return this.cardOnTable2;
+
+    }
+    if (_idplayer == 3) {
+        return this.cardOnTable3;
+
+    }
+
     },
 
     cardSort() {
@@ -336,7 +423,7 @@ cc.Class({
         let vitri0 = 0;
         var arrSort2 = [];
         for (let i = 0; i < array.length; i++) {
-            if (array[i].cardStatus == 100) {
+            if (array[i].cardStatus == 1000) {
                 arrSort2.push(array[i]);
 
             }
@@ -344,23 +431,48 @@ cc.Class({
 
         this.ChiaBai(false);
     },
+    CheckBocBai() {
+        this.node.getChildByName("Hud").getChildByName("bocbai").active = false;
+        if (_MyRoom.curAction == 'before') {
+            if (_MyRoom.curUser == _WS.ID) {
+                this.node.getChildByName("Hud").getChildByName("bocbai").active = true;
+            }
+            //else this.needUpdate = true;
+        }
+    },
+    
     BocBai() { /// BTN
-        console.log("BocBai");
-        let socardconlai = this.cardList.length;
-        let randomx = Math.floor(Math.random() * socardconlai);
-        this.AddLaBaiBocDuocVaoBoBai(randomx);
+        console.log("btn BocBai");
+        // let socardconlai = this.cardList.length;
+        //  let randomx = Math.floor(Math.random() * socardconlai);
+        _WS.getPool();
+        this.needUpdate = true;
+    },
+    thembaiduoc(listcard){
+        this.allPlayerCard[0] = [];
+        for (let j = 0; j < listcard.length; j++) {
+            let _type = listcard[j].type;
+            let _value = listcard[j].value;
 
+            var cardObj = new Object();
+            cardObj.id = _type * 100 + _value;
+            cardObj.cardStatus = 0;
+            this.allPlayerCard[0].push(cardObj)
+
+        }
+
+        this.ChiaBai(false);
+
+        //this.AddLaBaiBocDuocVaoBoBai(randomx);
     },
     AddLaBaiBocDuocVaoBoBai(randomx) {
-        var cardObj = new Object();
-        cardObj.id = this.cardList[randomx];
-        cardObj.cardStatus = 0;
-
-        this.allPlayerCard[0].push(cardObj)
-        this.cardList.splice(randomx, 1);
-        this.ChiaBai(false);
+      //  this.ChiaBai(false);
     },
     SoLaBaiCuaNguoiChoi() {
+
+    },
+    update (){
+        this.CheckBocBai();
 
     },
     CheckLaBaiCoAnDuocKhong(_cardid) {
@@ -411,6 +523,7 @@ cc.Class({
             }
 
         }
+        var Player0 = this.node.getChildByName("Button").getChildByName("anphom").active = true;
 
         // var lengthM = PlayerM.length;
         // for (let i1 = 0; i1 < arrz.length; i1++) {
@@ -552,44 +665,47 @@ cc.Class({
 
     },
     HaPhom0() {
-        cc.find("Canvas").getComponent("InitGame").playBtnS();
-        var Player0 = this.node.getChildByName("CardTable").getChildByName("Player0");
-        var PlayerM0 = this.node.getChildByName("CardTable").getChildByName("PlayerM0");
 
-        let iAr = 0;
+        // cc.find("Canvas").getComponent("InitGame").playBtnS();
+        // var Player0 = this.node.getChildByName("CardTable").getChildByName("Player0");
+        // var PlayerM0 = this.node.getChildByName("CardTable").getChildByName("PlayerM0");
 
-        for (let i = 0; i < this.phom0.length; i++) {
-            for (let j = 0; j < this.phom0[i].length; j++) {
-                var userIcon = cc.instantiate(this.card);
-                userIcon.setPosition(player0123[iAr].posiCard[0] + j * 50, player0123[iAr].posiCard[1] -i*50); 
-                var OneCard= this.phom0[i][j];
-                var obj = new Object();
-                obj.type = Math.floor(OneCard / 100);
-                obj.value = OneCard % 100;
-                obj.idCard = OneCard;
-                obj.idPlayer = 0;
-                console.log(obj);
-                userIcon.getComponent("card").DanhLabai(obj);
-                PlayerM0.addChild(userIcon);
+        // let iAr = 0;
 
-            }
-        }
-        this.scheduleOnce(function () {
-            console.log(PlayerM0);
-            for (let i = 0; i < PlayerM0.children.length; i++) {
-                var oneItem = PlayerM0.children[i];
-               oneItem.setScale(0.7);
-                let x = oneItem.x;
-                let y = oneItem.y + 200; 
-                var actionBy = cc.moveTo(0.5, cc.v2(x, y));
-                oneItem.runAction(actionBy);
-            }
+        // for (let i = 0; i < this.phom0.length; i++) {
+        //     for (let j = 0; j < this.phom0[i].length; j++) {
+        //         var userIcon = cc.instantiate(this.card);
+        //         userIcon.setPosition(player0123[iAr].posiCard[0] + j * 50, player0123[iAr].posiCard[1] - i * 50);
+        //         var OneCard = this.phom0[i][j];
+        //         var obj = new Object();
+        //         obj.type = Math.floor(OneCard / 100);
+        //         obj.value = OneCard % 100;
+        //         obj.idCard = OneCard;
+        //         obj.idPlayer = 0;
+        //         console.log(obj);
+        //         userIcon.getComponent("card").DanhLabai(obj);
+        //         PlayerM0.addChild(userIcon);
 
-        }, 0.1);
-        this.HaPhom1();
-        this.HaPhom2();
-        this.HaPhom3();
+        //     }
+        // }
+        // this.scheduleOnce(function () {
+        //     console.log(PlayerM0);
+        //     for (let i = 0; i < PlayerM0.children.length; i++) {
+        //         var oneItem = PlayerM0.children[i];
+        //         oneItem.setScale(0.7);
+        //         let x = oneItem.x;
+        //         let y = oneItem.y + 200;
+        //         var actionBy = cc.moveTo(0.5, cc.v2(x, y));
+        //         oneItem.runAction(actionBy);
+        //     }
 
+        // }, 0.1);
+        // this.HaPhom1();
+        // this.HaPhom2();
+        // this.HaPhom3();
+
+       // var _CardTable= cc.find("Canvas/GamePlay/CardTable");
+      // _CardTable.getComponent("CardTable").DanhBai2x(2,4,1);
 
     },
     HaPhom1() {
@@ -598,8 +714,8 @@ cc.Class({
         for (let i = 0; i < this.phom1.length; i++) {
             for (let j = 0; j < this.phom1[i].length; j++) {
                 var userIcon = cc.instantiate(this.card);
-                userIcon.setPosition(player0123[iAr].posiCard[0] + j * 50, player0123[iAr].posiCard[1] -i*50); 
-                var OneCard= this.phom1[i][j];
+                userIcon.setPosition(player0123[iAr].posiCard[0] + j * 50, player0123[iAr].posiCard[1] - i * 50);
+                var OneCard = this.phom1[i][j];
                 var obj = new Object();
                 obj.type = Math.floor(OneCard / 100);
                 obj.value = OneCard % 100;
@@ -615,10 +731,10 @@ cc.Class({
             console.log(PlayerM0);
             for (let i = 0; i < PlayerM0.children.length; i++) {
                 var oneItem = PlayerM0.children[i];
-              oneItem.setScale(0.7);
+                oneItem.setScale(0.7);
 
-                let x = oneItem.x -150;
-                let y = oneItem.y; 
+                let x = oneItem.x - 150;
+                let y = oneItem.y;
                 var actionBy = cc.moveTo(0.5, cc.v2(x, y));
                 oneItem.runAction(actionBy);
             }
@@ -632,8 +748,8 @@ cc.Class({
         for (let i = 0; i < this.phom2.length; i++) {
             for (let j = 0; j < this.phom2[i].length; j++) {
                 var userIcon = cc.instantiate(this.card);
-                userIcon.setPosition(player0123[iAr].posiCard[0] + j * 50, player0123[iAr].posiCard[1] -i*50); 
-                var OneCard= this.phom2[i][j];
+                userIcon.setPosition(player0123[iAr].posiCard[0] + j * 50, player0123[iAr].posiCard[1] - i * 50);
+                var OneCard = this.phom2[i][j];
                 var obj = new Object();
                 obj.type = Math.floor(OneCard / 100);
                 obj.value = OneCard % 100;
@@ -649,10 +765,10 @@ cc.Class({
             console.log(PlayerM0);
             for (let i = 0; i < PlayerM0.children.length; i++) {
                 var oneItem = PlayerM0.children[i];
-             oneItem.setScale(0.7);
+                oneItem.setScale(0.7);
 
                 let x = oneItem.x;
-                let y = oneItem.y-150; 
+                let y = oneItem.y - 150;
                 var actionBy = cc.moveTo(0.5, cc.v2(x, y));
                 oneItem.runAction(actionBy);
             }
@@ -665,8 +781,8 @@ cc.Class({
         for (let i = 0; i < this.phom3.length; i++) {
             for (let j = 0; j < this.phom3[i].length; j++) {
                 var userIcon = cc.instantiate(this.card);
-                userIcon.setPosition(player0123[iAr].posiCard[0] + j * 50, player0123[iAr].posiCard[1] -i*50); 
-                var OneCard= this.phom3[i][j];
+                userIcon.setPosition(player0123[iAr].posiCard[0] + j * 50, player0123[iAr].posiCard[1] - i * 50);
+                var OneCard = this.phom3[i][j];
                 var obj = new Object();
                 obj.type = Math.floor(OneCard / 100);
                 obj.value = OneCard % 100;
@@ -682,15 +798,65 @@ cc.Class({
             console.log(PlayerM0);
             for (let i = 0; i < PlayerM0.children.length; i++) {
                 var oneItem = PlayerM0.children[i];
-              oneItem.setScale(0.7);
+                oneItem.setScale(0.7);
 
-                let x = oneItem.x +150;
-                let y = oneItem.y; 
+                let x = oneItem.x + 150;
+                let y = oneItem.y;
                 var actionBy = cc.moveTo(0.5, cc.v2(x, y));
                 oneItem.runAction(actionBy);
             }
 
         }, 0.1);
+    },
+    checkMess(){
+        let self = this;
+        self.schedule(function () {
+        if (this.needUpdate){
+            var self = this;
+            this.needUpdate = false;
+            console.log(this.needUpdate);
+            _WS.room.onMessage("action", (message) => {
+               // console.log('boc bai',message);
+                let listcard =  message.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cards;
+                // let randomx = listcard[listcard.length - 1];
+                // let cardx1 = randomx.type * 100 + randomx.value;
+                // console.log(cardx1);
+                self.thembaiduoc(listcard);
+               // console.log( this.needUpdate + "|||"+listcard);
+            });
+        }else{
+            // _WS.room.onMessage("action", (message) => {
+            //         console.log(message);
+            //  });
+        }
+        }, 1);
+
+    },
+    checkMessGlobal(mss){
+        console.log("mss gl >>");
+
+        console.log(mss);
+        console.log("mss gl <<");
+        _MyRoom.curAction = mss.action;
+        _MyRoom.curUser  = mss.userID;
+        // if(mss.userID == _WS.ID){
+        //     action
+        // }
+        this.OtherPlayCard(mss);
+
+    },
+    OtherPlayCard(mss){
+        if(mss.userID == _WS.ID){
+           if(mss.action == "before"){
+            // check 2 nguoi choi
+            let listcardTurn = mss.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cardTurn;
+                if(this.cardOnTable0.length < listcardTurn.length){
+                    let onecardTurn = listcardTurn[listcardTurn.length -1];
+                    console.log(onecardTurn);
+                    var _CardTable= cc.find("Canvas/GamePlay/CardTable");
+                    _CardTable.getComponent("CardTable").DanhBai2x(onecardTurn.type,onecardTurn.message,1);
+                }
+           }
+        }
     }
-    // update (dt) {},
 });

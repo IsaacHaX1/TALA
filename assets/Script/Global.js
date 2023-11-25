@@ -20,16 +20,21 @@ window._MyRoom ={
     cardRoom : null,
     isGamePlay: null,
     soNguoiChoi : 0,
+    curUser : '',
+    curAction : '',
     isStartGame(){
         this.soNguoiChoi =window._MyRoom.cardRoom.mess.users.length;
         this.XepVitriNguoiChoi();
 
     },
     viTriNguoiChoi: null,
+    vtDoiThu: null,
     XepVitriNguoiChoi(){
+      // can sua lai truong hop 3 -4 nguoi choi
         let MyID = _WS.ID;
         let _users = window._MyRoom.cardRoom.mess.users;
         this.viTriNguoiChoi = [];
+        this.vtDoiThu = [];
 
         let vitriUser = _MyRoom.nguoiChoiViTriSoMayTrongData(MyID,_users);
         console.log(vitriUser);
@@ -47,14 +52,15 @@ window._MyRoom ={
                     obj.id = _users[i].id;
                     obj.idTrongArr = i;
                     obj.viTriTrenBan = 1;
-            
+                    
+                    this.vtDoiThu.push(obj);
                     this.viTriNguoiChoi.push(obj);
                 }
                 
             }
         }
 
-        if(_users.length == 3                                                           ){
+        if(_users.length == 3){
             for (let i = 0; i < _users.length; i++) {
                 if(i != vitriUser){
                     obj = new Object();
@@ -132,21 +138,26 @@ window._WSL = {
           }
         });
         _WS.room.onMessage("action", (message) => {
-          if (message.clientID != _WS.ID) {
-            console.log(message);
-          }
+          //console.log(message);
+            var callGP = cc.find("Canvas/GamePlay");
+            callGP.getComponent("GamePlayCtrl").checkMessGlobal(message);
+
         });
         _WS.room.onMessage("start", (message) => {
           _WS.state = "start";
+          window._MyRoom.curUser = message.mess.userID;
+          window._MyRoom.curAction = message.mess.action;
           console.log(message);
         });
       
         _WS.room.onMessage("startRoom", (message) => {
           console.log("## startRoom");
-          console.log(message);
           _WS.state = "start";
           window._MyRoom.isGamePlay = "start";
           window._MyRoom.cardRoom = message;
+          window._MyRoom.curUser = message.userID;
+          window._MyRoom.curAction = message.mess.action;
+          console.log(message);
         });
       
         _WS.room.onMessage("result", (message) => {

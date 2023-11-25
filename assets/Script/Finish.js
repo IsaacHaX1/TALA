@@ -39,24 +39,24 @@ cc.Class({
 
     Nhat(){
         this.node.getChildByName("titleLabel").getComponent(cc.Label).string = "NHẤT";
-        this.node.getChildByName("popup_frame").getComponent(cc.Button).interactable = true;
+        //this.node.getChildByName("popup_frame").getComponent(cc.Button).interactable = true;
       //  .interactable = true;
 
     },
     Nhi(){
         this.node.getChildByName("titleLabel").getComponent(cc.Label).string = "NHÌ";
-        this.node.getChildByName("popup_frame").getComponent(cc.Button).interactable = false;
+       // this.node.getChildByName("popup_frame").getComponent(cc.Button).interactable = false;
 
     },
     Ba(){
         this.node.getChildByName("titleLabel").getComponent(cc.Label).string = "BA";
-        this.node.getChildByName("popup_frame").getComponent(cc.Button).interactable = false;
+     //   this.node.getChildByName("popup_frame").getComponent(cc.Button).interactable = false;
 
 
     },
     Bet(){
         this.node.getChildByName("titleLabel").getComponent(cc.Label).string = "BÉT";
-        this.node.getChildByName("popup_frame").getComponent(cc.Button).interactable = false;
+     //   this.node.getChildByName("popup_frame").getComponent(cc.Button).interactable = false;
 
 
     },
