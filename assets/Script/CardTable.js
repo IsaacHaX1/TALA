@@ -63,6 +63,8 @@ cc.Class({
             console.log(" doi thu danh bai _cardNumber = "+_cardNumber);
             
             var _GamePlayNode= cc.find("Canvas/GamePlay");
+            _GamePlayNode.getChildByName("Button").getChildByName("danhbai").active = false;
+
             var arrCardTable = _GamePlayNode.getComponent("GamePlayCtrl").addCardOnTable2(_cardNumber, _idPlayer);
 
             var cardTBlength = arrCardTable.length

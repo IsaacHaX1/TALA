@@ -37,6 +37,8 @@ cc.Class({
 
     start() {
         this.needUpdate = false;
+        //this.checkMess();
+
     },
     backToLoading() {
         cc.find("Canvas").getComponent("InitGame").ShowLoading();
@@ -110,7 +112,6 @@ cc.Class({
         console.log(this.allPlayerCard);
         console.log(this.cardList);
         this.ChiaBaiLanDau(true);
-        this.checkMess();
 
     },
     ChiaBaiLanDau() {
@@ -816,13 +817,8 @@ cc.Class({
             this.needUpdate = false;
             console.log(this.needUpdate);
             _WS.room.onMessage("action", (message) => {
-               // console.log('boc bai',message);
-                let listcard =  message.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cards;
-                // let randomx = listcard[listcard.length - 1];
-                // let cardx1 = randomx.type * 100 + randomx.value;
-                // console.log(cardx1);
-                self.thembaiduoc(listcard);
-               // console.log( this.needUpdate + "|||"+listcard);
+               /// let listcard =  message.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cards;
+              // self.thembaiduoc(listcard);
             });
         }else{
             // _WS.room.onMessage("action", (message) => {
@@ -842,12 +838,15 @@ cc.Class({
         // if(mss.userID == _WS.ID){
         //     action
         // }
+        this.checkMessX();
         this.OtherPlayCard(mss);
 
     },
     OtherPlayCard(mss){
+        let self = this;
         if(mss.userID == _WS.ID){
            if(mss.action == "before"){
+
             // check 2 nguoi choi
             let listcardTurn = mss.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cardTurn;
                 if(this.cardOnTable0.length < listcardTurn.length){
@@ -857,6 +856,27 @@ cc.Class({
                     _CardTable.getComponent("CardTable").DanhBai2x(onecardTurn.type,onecardTurn.message,1);
                 }
            }
+
+           if(mss.action == "after"){
+            console.log(this.needUpdate);
+            if (this.needUpdate){
+                this.needUpdate = false;
+                let listcard =  mss.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cards;
+               self.thembaiduoc(listcard);
+               console.log("boc duoc bai");
+            }
+           }
         }
-    }
+    },
+    checkMessX() {
+        this.node.getChildByName("Button").getChildByName("danhbai").active = false;
+        if (_MyRoom.curAction == 'after' && _MyRoom.curUser == _WS.ID) {
+            //if (_MyRoom.curUser == _WS.ID) {
+                this.node.getChildByName("Button").getChildByName("danhbai").active = true;
+        //    }
+            //else this.needUpdate = true;
+        }else{
+
+        }
+    },
 });
