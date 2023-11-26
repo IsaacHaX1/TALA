@@ -64,7 +64,7 @@ cc.Class({
 
         let vitri = window._MyRoom.viTriNguoiChoi;
         for (let i = 0; i < vitri.length; i++) {
-            this.allPlayerCard[i] = [];
+            _MyRoom.allPlayerCard[i] = [];
             let arrvt = vitri[i].idTrongArr;
             for (let j = 0; j < _users[arrvt].cards.length; j++) {
                 let _type = _users[arrvt].cards[j].type;
@@ -73,7 +73,7 @@ cc.Class({
                 var cardObj = new Object();
                 cardObj.id = _type * 100 + _value;
                 cardObj.cardStatus = 0;
-                this.allPlayerCard[i].push(cardObj)
+                _MyRoom.allPlayerCard[i].push(cardObj)
 
             }
 
@@ -84,10 +84,10 @@ cc.Class({
     },
 
     TraoBai() {
-        this.cardOnTable0 = [];
-        this.cardOnTable1 = [];
-        this.cardOnTable2 = [];
-        this.cardOnTable3 = [];
+        _MyRoom.cardOnTable0 = [];
+        _MyRoom.cardOnTable1 = [];
+        _MyRoom.cardOnTable2 = [];
+        _MyRoom.cardOnTable3 = [];
         let SoNguoiChoi = window._MyRoom.soNguoiChoi;
 
         // an hien avata nguoi choi tren ban
@@ -109,7 +109,7 @@ cc.Class({
 
         // chia bai
         let _addAllPlayCard = this.addAllPlayCard();
-        console.log(this.allPlayerCard);
+        console.log(_MyRoom.allPlayerCard);
         console.log(this.cardList);
         this.ChiaBaiLanDau(true);
 
@@ -123,10 +123,10 @@ cc.Class({
             playerx.removeAllChildren(true);
         }
 
-        for (let i = 0; i < this.allPlayerCard.length; i++) {
+        for (let i = 0; i < _MyRoom.allPlayerCard.length; i++) {
             var playerx = CardTable.children[i * 2];
 
-            var cardOf1Player = this.allPlayerCard[i];
+            var cardOf1Player = _MyRoom.allPlayerCard[i];
 
             for (let j = 0; j < cardOf1Player.length; j++) {
                 var posix = player0123[i].posiCard[0];
@@ -134,7 +134,7 @@ cc.Class({
 
                 var cardpf = cc.instantiate(this.card);
                 cardpf.setPosition(posix, posiy);
-                var _cardx = this.allPlayerCard[i][j];
+                var _cardx = _MyRoom.allPlayerCard[i][j];
                 cardpf.getComponent("card").VeLaBai(_cardx.id, _cardx.id, i);
                 cardpf.getComponent("card").hieuUngChiaBai1();
 
@@ -163,11 +163,11 @@ cc.Class({
             var playerx = CardTable.children[i];
             playerx.removeAllChildren(true);
         }
-        console.log(this.allPlayerCard);
-        for (let i = 0; i < this.allPlayerCard.length; i++) {
+        console.log(_MyRoom.allPlayerCard);
+        for (let i = 0; i < _MyRoom.allPlayerCard.length; i++) {
             var playerx = CardTable.children[i * 2];
 
-            var cardOf1Player = this.allPlayerCard[i];
+            var cardOf1Player = _MyRoom.allPlayerCard[i];
 
             for (let j = 0; j < cardOf1Player.length; j++) {
                 var posix = player0123[i].posiCard[0];
@@ -175,7 +175,7 @@ cc.Class({
 
                 var cardpf = cc.instantiate(this.card);
                 cardpf.setPosition(posix, posiy);
-                var _cardx = this.allPlayerCard[i][j];
+                var _cardx = _MyRoom.allPlayerCard[i][j];
                 cardpf.getComponent("card").VeLaBai(_cardx.id, _cardx.id, i);
                 // cardpf.getComponent("card").hieuUngChiaBai1();
 
@@ -193,10 +193,10 @@ cc.Class({
         for (let i1 = 0; i1 < 4; i1++) {
             var playerM = CardTable.children[i1 * 2 + 1];
 
-            var cardOf1Player = this.cardOnTable0;
-            if (i1 == 1) cardOf1Player = this.cardOnTable1;
-            if (i1 == 2) cardOf1Player = this.cardOnTable2;
-            if (i1 == 3) cardOf1Player = this.cardOnTable3;
+            var cardOf1Player = _MyRoom.cardOnTable0;
+            if (i1 == 1) cardOf1Player = _MyRoom.cardOnTable1;
+            if (i1 == 2) cardOf1Player = _MyRoom.cardOnTable2;
+            if (i1 == 3) cardOf1Player = _MyRoom.cardOnTable3;
             for (let j1 = 0; j1 < cardOf1Player.length; j1++) {
                 var posix = player0123[i1].posiCardM[0] + (j1 + 1) * 25;
                 var posiy = player0123[i1].posiCardM[1];
@@ -231,30 +231,30 @@ cc.Class({
         var tableCard = this.node.getChildByName("CardTable").getChildByName("PlayerM0");
         var handCard = this.node.getChildByName("CardTable").getChildByName("Player0");
 
-        if (this.allPlayerCard.length == 4) {
-            var lengthx = this.cardOnTable3.length;
+        if (_MyRoom.allPlayerCard.length == 4) {
+            var lengthx = _MyRoom.cardOnTable3.length;
             if (lengthx > 0) {
                 var cardObj = new Object();
-                cardObj.id = this.cardOnTable3[lengthx - 1];
+                cardObj.id = _MyRoom.cardOnTable3[lengthx - 1];
                 cardObj.cardStatus = 1000;
 
-                this.allPlayerCard[0].push(cardObj);
-                this.cardOnTable3.splice(lengthx - 1, 1);
+                _MyRoom.allPlayerCard[0].push(cardObj);
+                _MyRoom.cardOnTable3.splice(lengthx - 1, 1);
                 tableCard = this.node.getChildByName("CardTable").getChildByName("PlayerM3");
                 //   this.ChiaBai(false);
             }
 
         }
 
-        if (this.allPlayerCard.length == 3) {
-            var lengthx = this.cardOnTable2.length;
+        if (_MyRoom.allPlayerCard.length == 3) {
+            var lengthx = _MyRoom.cardOnTable2.length;
             if (lengthx > 0) {
                 var cardObj = new Object();
-                cardObj.id = this.cardOnTable2[lengthx - 1];
+                cardObj.id = _MyRoom.cardOnTable2[lengthx - 1];
                 cardObj.cardStatus = 1000;
 
-                this.allPlayerCard[0].push(cardObj);
-                this.cardOnTable2.splice(lengthx - 1, 1);
+                _MyRoom.allPlayerCard[0].push(cardObj);
+                _MyRoom.cardOnTable2.splice(lengthx - 1, 1);
                 tableCard = this.node.getChildByName("CardTable").getChildByName("PlayerM2");
 
                 // this.ChiaBai(false);
@@ -262,15 +262,15 @@ cc.Class({
 
         }
 
-        if (this.allPlayerCard.length == 2) {
-            var lengthx = this.cardOnTable1.length;
+        if (_MyRoom.allPlayerCard.length == 2) {
+            var lengthx = _MyRoom.cardOnTable1.length;
             if (lengthx > 0) {
                 var cardObj = new Object();
-                cardObj.id = this.cardOnTable1[lengthx - 1];
+                cardObj.id = _MyRoom.cardOnTable1[lengthx - 1];
                 cardObj.cardStatus = 1000;
 
-                this.allPlayerCard[0].push(cardObj);
-                this.cardOnTable1.splice(lengthx - 1, 1);
+                _MyRoom.allPlayerCard[0].push(cardObj);
+                _MyRoom.cardOnTable1.splice(lengthx - 1, 1);
                 tableCard = this.node.getChildByName("CardTable").getChildByName("PlayerM1");
 
                 // this.ChiaBai(false);
@@ -300,87 +300,87 @@ cc.Class({
         }, 0.1);
         //console.log(tableCard);
         //this.node.getChildByName("CardTable").getChildByName("PlayerM0");
-        //console.log(this.cardOnTable0 + "|" + this.cardOnTable1 + "|" + this.cardOnTable2 + "|" + this.cardOnTable3);
+        //console.log(_MyRoom.cardOnTable0 + "|" + _MyRoom.cardOnTable1 + "|" + _MyRoom.cardOnTable2 + "|" + _MyRoom.cardOnTable3);
 
     },
 
     addCardOnTable(_cardNumber, _idplayer) {
         if (_idplayer == 0) {
-            this.cardOnTable0.push(_cardNumber);
+            _MyRoom.cardOnTable0.push(_cardNumber);
 
         }
         if (_idplayer == 1) {
-            this.cardOnTable1.push(_cardNumber);
-            if (this.allPlayerCard.length == 2) {
+            _MyRoom.cardOnTable1.push(_cardNumber);
+            if (_MyRoom.allPlayerCard.length == 2) {
                 this.checkBaiCungSo(_cardNumber);
                 this.checkBaiCungChat(_cardNumber);
 
             }
         }
         if (_idplayer == 2) {
-            this.cardOnTable2.push(_cardNumber);
-            if (this.allPlayerCard.length == 3) {
+            _MyRoom.cardOnTable2.push(_cardNumber);
+            if (_MyRoom.allPlayerCard.length == 3) {
                 this.checkBaiCungSo(_cardNumber);
                 this.checkBaiCungChat(_cardNumber);
 
             }
         }
         if (_idplayer == 3) {
-            this.cardOnTable3.push(_cardNumber);
-            if (this.allPlayerCard.length == 4) {
+            _MyRoom.cardOnTable3.push(_cardNumber);
+            if (_MyRoom.allPlayerCard.length == 4) {
                 this.checkBaiCungSo(_cardNumber);
                 this.checkBaiCungChat(_cardNumber);
             }
         }
         console.log(_cardNumber+"||"+ _idplayer);
        // xóa bài trên tay
-        for (let i = 0; i < this.allPlayerCard[_idplayer].length; i++) {
-            if (this.allPlayerCard[_idplayer][i].id == _cardNumber) this.allPlayerCard[_idplayer].splice(i, 1);
+        for (let i = 0; i < _MyRoom.allPlayerCard[_idplayer].length; i++) {
+            if (_MyRoom.allPlayerCard[_idplayer][i].id == _cardNumber) _MyRoom.allPlayerCard[_idplayer].splice(i, 1);
 
         }
         
         if (_idplayer == 0) {
-            return this.cardOnTable0;
+            return _MyRoom.cardOnTable0;
 
         }
         if (_idplayer == 1) {
-            return this.cardOnTable1;
+            return _MyRoom.cardOnTable1;
 
         }
         if (_idplayer == 2) {
-            return this.cardOnTable2;
+            return _MyRoom.cardOnTable2;
 
         }
         if (_idplayer == 3) {
-            return this.cardOnTable3;
+            return _MyRoom.cardOnTable3;
 
         }
     },
 
     addCardOnTable2(_cardNumber, _idplayer) {
         if (_idplayer == 0) {
-            this.cardOnTable0.push(_cardNumber);
+            _MyRoom.cardOnTable0.push(_cardNumber);
 
         }
         if (_idplayer == 1) {
-            this.cardOnTable1.push(_cardNumber);
-            if (this.allPlayerCard.length == 2) {
+            _MyRoom.cardOnTable1.push(_cardNumber);
+            if (_MyRoom.allPlayerCard.length == 2) {
                 this.checkBaiCungSo(_cardNumber);
                 this.checkBaiCungChat(_cardNumber);
 
             }
         }
         if (_idplayer == 2) {
-            this.cardOnTable2.push(_cardNumber);
-            if (this.allPlayerCard.length == 3) {
+            _MyRoom.cardOnTable2.push(_cardNumber);
+            if (_MyRoom.allPlayerCard.length == 3) {
                 this.checkBaiCungSo(_cardNumber);
                 this.checkBaiCungChat(_cardNumber);
 
             }
         }
         if (_idplayer == 3) {
-            this.cardOnTable3.push(_cardNumber);
-            if (this.allPlayerCard.length == 4) {
+            _MyRoom.cardOnTable3.push(_cardNumber);
+            if (_MyRoom.allPlayerCard.length == 4) {
                 this.checkBaiCungSo(_cardNumber);
                 this.checkBaiCungChat(_cardNumber);
             }
@@ -388,19 +388,19 @@ cc.Class({
       //  console.log(_cardNumber+"||"+ _idplayer);
        // xóa bài trên tay
        if (_idplayer == 0) {
-        return this.cardOnTable0;
+        return _MyRoom.cardOnTable0;
 
     }
     if (_idplayer == 1) {
-        return this.cardOnTable1;
+        return _MyRoom.cardOnTable1;
 
     }
     if (_idplayer == 2) {
-        return this.cardOnTable2;
+        return _MyRoom.cardOnTable2;
 
     }
     if (_idplayer == 3) {
-        return this.cardOnTable3;
+        return _MyRoom.cardOnTable3;
 
     }
 
@@ -408,7 +408,7 @@ cc.Class({
 
     cardSort() {
         cc.find("Canvas").getComponent("InitGame").playBtnS();
-        var array = this.allPlayerCard[0];
+        var array = _MyRoom.allPlayerCard[0];
         var size = array.length;
         for (var step = 1; step < size; step++) {
             var keyArr = array[step];
@@ -420,7 +420,7 @@ cc.Class({
             }
             array[j + 1] = keyArr;
         }
-        //console.log(this.allPlayerCard);
+        //console.log(_MyRoom.allPlayerCard);
         let vitri0 = 0;
         var arrSort2 = [];
         for (let i = 0; i < array.length; i++) {
@@ -450,7 +450,7 @@ cc.Class({
         this.needUpdate = true;
     },
     thembaiduoc(listcard){
-        this.allPlayerCard[0] = [];
+        _MyRoom.allPlayerCard[0] = [];
         for (let j = 0; j < listcard.length; j++) {
             let _type = listcard[j].type;
             let _value = listcard[j].value;
@@ -458,7 +458,7 @@ cc.Class({
             var cardObj = new Object();
             cardObj.id = _type * 100 + _value;
             cardObj.cardStatus = 0;
-            this.allPlayerCard[0].push(cardObj)
+            _MyRoom.allPlayerCard[0].push(cardObj)
 
         }
 
@@ -478,7 +478,7 @@ cc.Class({
     },
     CheckLaBaiCoAnDuocKhong(_cardid) {
         var cardid = _cardid;
-        if (this.allPlayerCard[0].length < 10) {
+        if (_MyRoom.allPlayerCard[0].length < 10) {
 
         }
 
@@ -496,7 +496,7 @@ cc.Class({
     LaBaiCungSo(cardid) {
         var arr = [];
         arr.push(cardid);
-        var listPlaycard = this.allPlayerCard[0];
+        var listPlaycard = _MyRoom.allPlayerCard[0];
         var typeCardId = cardid % 100;
         for (let i = 0; i < listPlaycard.length; i++) {
             let oneCardTrenTay = listPlaycard[i].id;
@@ -550,7 +550,7 @@ cc.Class({
         arrTien.push(cardid);
 
         var arrLui = [];
-        var listPlaycard = this.allPlayerCard[0];
+        var listPlaycard = _MyRoom.allPlayerCard[0];
 
         var typeCardId = Math.floor(cardid / 100);
         var valueCardId = cardid % 100;
@@ -844,20 +844,27 @@ cc.Class({
     },
     OtherPlayCard(mss){
         let self = this;
-        if(mss.userID == _WS.ID){
+        
            if(mss.action == "before"){
-
+            if(_WS.ID == mss.clientID){
+                console.log("Tao đánh bài");
+            }else {
+                let idlocal =  _MyRoom.idlocal( mss.clientID,null);
+                console.log(idlocal.id +" : đánh bài" );
+                var _CardTable= cc.find("Canvas/GamePlay/CardTable");
+                _CardTable.getComponent("CardTable").DanhBai2x(mss.check.card.type,mss.check.card.value,idlocal.id);
+            }
             // check 2 nguoi choi
-            let listcardTurn = mss.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cardTurn;
-            this.checkListCardTurn(mss.mess.users);
-                if(this.cardOnTable0.length < listcardTurn.length){
-                    let onecardTurn = listcardTurn[listcardTurn.length -1];
-                    console.log(onecardTurn);
-                    var _CardTable= cc.find("Canvas/GamePlay/CardTable");
-                    _CardTable.getComponent("CardTable").DanhBai2x(onecardTurn.type,onecardTurn.message,1);
-                }
+           // let listcardTurn = mss.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cardTurn;
+           // this.checkListCardTurn(mss.mess.users);
+                // if(_MyRoom.cardOnTable0.length < listcardTurn.length){
+                //     let onecardTurn = listcardTurn[listcardTurn.length -1];
+                //     console.log(onecardTurn);
+                //     var _CardTable= cc.find("Canvas/GamePlay/CardTable");
+                //     _CardTable.getComponent("CardTable").DanhBai2x(onecardTurn.type,onecardTurn.message,1);
+                // }
            }
-
+           if(mss.userID == _WS.ID){
            if(mss.action == "after"){
             console.log(this.needUpdate);
             if (this.needUpdate){
@@ -867,6 +874,17 @@ cc.Class({
                console.log("boc duoc bai");
             }
            }
+        }
+
+        if(mss.action == "after"){
+            if(_WS.ID == mss.userID){
+                console.log("Tao bốc bài");
+            }else{
+               let idlocal =  _MyRoom.idlocal(mss.userID,null);
+                console.log(idlocal.id +" : bốc bài" );
+                let idsv =  _MyRoom.idsv(mss.userID,null);
+                console.log(_MyRoom.allPlayerCard[idlocal.id].length + "|"+ mss.mess.users[idsv.id].cards.length);
+            }
         }
     },
     checkMessX() {
@@ -905,44 +923,44 @@ cc.Class({
             }            
         }
 
-        if(soNguoiChoiTrongRoom == 2){
-            let length2_0 = list0.length;
-            let length2_1 = list1.length;
-            if(length2_1 > length2_0){
-                console.log(" nguoi choi 0sv danh bai cho 1sv"); // 0sv danh sach theo server
-            }else{
-                if(length2_1 < length2_0){
-                    console.log(" nguoi choi 1sv danh bai cho 0sv"); // 0sv danh sach theo server
+        // if(soNguoiChoiTrongRoom == 2){
+        //     let length2_0 = list0.length;
+        //     let length2_1 = list1.length;
+        //     if(length2_1 > length2_0){
+        //         console.log(" nguoi choi 0sv danh bai cho 1sv"); // 0sv danh sach theo server
+        //     }else{
+        //         if(length2_1 < length2_0){
+        //             console.log(" nguoi choi 1sv danh bai cho 0sv"); // 0sv danh sach theo server
 
-                }else{
-                    console.log(" nguoi choi 1sv 0sv chua danh bai"); // 0sv danh sach theo server
-                }
-            }
-        }
+        //         }else{
+        //             console.log(" nguoi choi 1sv 0sv chua danh bai"); // 0sv danh sach theo server
+        //         }
+        //     }
+        // }
 
-        if(soNguoiChoiTrongRoom == 3){
-            let length3_0 = list0.length;
-            let length3_1 = list1.length;
-            let length3_2 = list2.length;
+        // if(soNguoiChoiTrongRoom == 3){
+        //     let length3_0 = list0.length;
+        //     let length3_1 = list1.length;
+        //     let length3_2 = list2.length;
 
-            if(length3_1 > length3_0){
-                console.log(" nguoi choi 0sv danh bai cho 1sv ",length2_1); // 0sv danh sach theo server
-            }else{
-                console.log("-0sv ",length2_1); // 0sv danh sach theo server
-            }
+        //     if(length3_1 > length3_0){
+        //         console.log(" nguoi choi 0sv danh bai cho 1sv ",length2_1); // 0sv danh sach theo server
+        //     }else{
+        //         console.log("-0sv ",length2_1); // 0sv danh sach theo server
+        //     }
 
-            if(length3_2 > length3_1){
-                console.log(" nguoi choi 1sv danh bai cho 2sv ",length3_1); 
-            }else{
-                console.log(" -1sv ",length3_1); // nguoi choi 1sv chua danh bai 
-            }
+        //     if(length3_2 > length3_1){
+        //         console.log(" nguoi choi 1sv danh bai cho 2sv ",length3_1); 
+        //     }else{
+        //         console.log(" -1sv ",length3_1); // nguoi choi 1sv chua danh bai 
+        //     }
 
-            if(length3_2 > length3_1){
-                console.log(" nguoi choi 1sv danh bai cho 2sv ",length3_1); 
-            }else{
-                console.log(" -1sv ",length3_1); // nguoi choi 1sv chua danh bai 
-            }
-        }
+        //     if(length3_2 > length3_1){
+        //         console.log(" nguoi choi 1sv danh bai cho 2sv ",length3_1); 
+        //     }else{
+        //         console.log(" -1sv ",length3_1); // nguoi choi 1sv chua danh bai 
+        //     }
+        // }
 
 
 
