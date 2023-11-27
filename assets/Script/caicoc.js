@@ -33,18 +33,16 @@ cc.Class({
     start () {
 
     },
-
     onCollisionEnter: function (other, self) {
-        console.log("what1");
+       // console.log("what1");
     },
     onCollisionStay: function (other, self) {
-        console.log("what2");
+       // console.log("what2");
 
     },
     
     onCollisionExit(other, self){
-
-        console.log("what3");
+//
 
     },
     // update (dt) {},

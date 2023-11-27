@@ -155,6 +155,15 @@ var _WS = {
     console.log(_mess);
     if (_WS.enable) _WS.room.send("action", _mess);
   };
+
+  _WS.getMatch = function (mess) {
+    // const mess = {
+    //   mess: "getMatch",
+    //   type: 1,
+    //   value: 1,
+    // };
+    if (_WS.enable) _WS.room.send("action", mess);
+  };
   
   _WS.start = function (_mess) {
     if (_WS.ID == _WS.users[0].id) {

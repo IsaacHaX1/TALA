@@ -143,4 +143,4 @@ var arr = [
       pair: [],
     };
   };
-  console.log(checkMatch({ type: 4, value: 1 },arr));
+ // console.log(checkMatch({ type: 4, value: 1 },arr));

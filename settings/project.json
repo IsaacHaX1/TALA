@@ -9,11 +9,13 @@
   ],
   "collision-matrix": [
     [
-      true
+      false,
+      null,
+      false
     ],
     [
       false,
-      true,
+      false,
       true
     ],
     [

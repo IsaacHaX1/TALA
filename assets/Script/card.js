@@ -29,6 +29,7 @@ cc.Class({
         type: 1, // tuong ung ro co tep bich
         value: 1, /// 0 --> 9 and  10 11 12 tuong ung J Q K AT
         idPlayer: 0,// 0,1,2,3
+        coc :null
         // vitriLabai : 0// 0 tren tay //  1 la bai tren ban /// 2 bi an 
 
 
@@ -62,6 +63,8 @@ cc.Class({
         this.cardStatus = 3; // la bai tren ban
         this.idCard = selfx.idCard;
         this.idPlayer = selfx.idPlayer;
+
+       if( selfx.coc !==undefined  && selfx.coc != null ) this.coc = "coc" + selfx.coc;
 
         //this.vitriLabai = 1;// la bai tren ban
         //var idplayerx = this._idPlayer;
@@ -175,8 +178,20 @@ cc.Class({
 
     },
     onCollisionEnter: function (other, self){
-        console.log(other);
-        console.log(self);
+        //console.log(other);
+       // console.log(self);
+        if(other.node._name == "coc0" ||other.node._name == "coc1" || other.node._name == "coc2" ||other.node._name == "coc3"){
+            if(self.node.getComponent("card").coc != null){
+                if(other.node._name == this.coc) {
+                    console.log(other.node._name + "|"+this.coc);
+                    var _GamePlayNode= cc.find("Canvas/GamePlay");
+                    _GamePlayNode.getComponent("GamePlayCtrl").ChiaBai(false);
+                
+                    this.node.destroy();
+                }
+
+            }
+        }
     },
 
     // danh la bai nay

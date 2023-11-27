@@ -38,6 +38,10 @@ cc.Class({
     start() {
         this.needUpdate = false;
         //this.checkMess();
+        // Open the collision manager, without this part statement you will not detect any collision.
+        cc.director.getCollisionManager().enabled = true;
+        // cc.director.getCollisionManager().enabledDebugDraw = true;
+        this.CheckBocBai();
 
     },
     backToLoading() {
@@ -230,11 +234,11 @@ cc.Class({
         cc.find("Canvas").getComponent("InitGame").playBtnS();
         var tableCard = this.node.getChildByName("CardTable").getChildByName("PlayerM0");
         var handCard = this.node.getChildByName("CardTable").getChildByName("Player0");
-
+        var cardObj = new Object();
         if (_MyRoom.allPlayerCard.length == 4) {
             var lengthx = _MyRoom.cardOnTable3.length;
             if (lengthx > 0) {
-                var cardObj = new Object();
+                //var cardObj = new Object();
                 cardObj.id = _MyRoom.cardOnTable3[lengthx - 1];
                 cardObj.cardStatus = 1000;
 
@@ -249,7 +253,7 @@ cc.Class({
         if (_MyRoom.allPlayerCard.length == 3) {
             var lengthx = _MyRoom.cardOnTable2.length;
             if (lengthx > 0) {
-                var cardObj = new Object();
+                //var cardObj = new Object();
                 cardObj.id = _MyRoom.cardOnTable2[lengthx - 1];
                 cardObj.cardStatus = 1000;
 
@@ -265,7 +269,7 @@ cc.Class({
         if (_MyRoom.allPlayerCard.length == 2) {
             var lengthx = _MyRoom.cardOnTable1.length;
             if (lengthx > 0) {
-                var cardObj = new Object();
+                //var cardObj = new Object();
                 cardObj.id = _MyRoom.cardOnTable1[lengthx - 1];
                 cardObj.cardStatus = 1000;
 
@@ -283,16 +287,18 @@ cc.Class({
         tableCard.children[lengthx - 1].destroy();
 
         var obj = new Object();
-        obj.type = Math.floor(103 / 100);
-        obj.value = 103 % 100;
-        obj.idCard = 103;
+        obj.type = Math.floor(cardObj.id / 100);
+        obj.value = cardObj.id % 100;
+        obj.idCard = cardObj.id;
         obj.idPlayer = 0;
+        obj.coc = 0;
 
         var userIcon = cc.instantiate(this.card);
         userIcon.setPosition(xPos, yPos);
         userIcon.getComponent("card").DanhLabai(obj)
         tableCard.addChild(userIcon);
-
+        
+        _WS.getMatch(_Glb.cardObj(cardObj.id));
         self.scheduleOnce(function () {
             userIcon.setScale(1);
             var actionBy = cc.moveTo(0.5, cc.v2(player0123[0].posiCard[0], player0123[0].posiCard[1]));
@@ -302,43 +308,53 @@ cc.Class({
         //this.node.getChildByName("CardTable").getChildByName("PlayerM0");
         //console.log(_MyRoom.cardOnTable0 + "|" + _MyRoom.cardOnTable1 + "|" + _MyRoom.cardOnTable2 + "|" + _MyRoom.cardOnTable3);
 
-    },
+      
 
+    },
+    checkmatchx(_cardNumber){
+
+        var checkm = window._Glb.checkMatch( _Glb.cardObj(_cardNumber) ,_Glb.arrObj(_MyRoom.allPlayerCard[0]));
+        if(checkm.check){
+            console.log(checkm);
+            console.log(" an luon")
+           this.node.getChildByName("Button").getChildByName("anphom").active = true;
+
+        }else this.node.getChildByName("Button").getChildByName("anphom").active = false;
+        return checkm;
+    },
     addCardOnTable(_cardNumber, _idplayer) {
         if (_idplayer == 0) {
             _MyRoom.cardOnTable0.push(_cardNumber);
 
         }
+
         if (_idplayer == 1) {
             _MyRoom.cardOnTable1.push(_cardNumber);
             if (_MyRoom.allPlayerCard.length == 2) {
-                this.checkBaiCungSo(_cardNumber);
-                this.checkBaiCungChat(_cardNumber);
-
+                this.checkmatchx(_cardNumber);
             }
         }
         if (_idplayer == 2) {
             _MyRoom.cardOnTable2.push(_cardNumber);
             if (_MyRoom.allPlayerCard.length == 3) {
-                this.checkBaiCungSo(_cardNumber);
-                this.checkBaiCungChat(_cardNumber);
-
+                this.checkmatchx(_cardNumber);
             }
         }
         if (_idplayer == 3) {
             _MyRoom.cardOnTable3.push(_cardNumber);
             if (_MyRoom.allPlayerCard.length == 4) {
-                this.checkBaiCungSo(_cardNumber);
-                this.checkBaiCungChat(_cardNumber);
+                this.checkmatchx(_cardNumber);
             }
         }
-        console.log(_cardNumber+"||"+ _idplayer);
-       // xóa bài trên tay
+
+
+        console.log(_cardNumber + "||" + _idplayer);
+        // xóa bài trên tay
         for (let i = 0; i < _MyRoom.allPlayerCard[_idplayer].length; i++) {
             if (_MyRoom.allPlayerCard[_idplayer][i].id == _cardNumber) _MyRoom.allPlayerCard[_idplayer].splice(i, 1);
 
         }
-        
+
         if (_idplayer == 0) {
             return _MyRoom.cardOnTable0;
 
@@ -365,45 +381,41 @@ cc.Class({
         if (_idplayer == 1) {
             _MyRoom.cardOnTable1.push(_cardNumber);
             if (_MyRoom.allPlayerCard.length == 2) {
-                this.checkBaiCungSo(_cardNumber);
-                this.checkBaiCungChat(_cardNumber);
-                
+                this.checkmatchx(_cardNumber);
+
 
             }
         }
         if (_idplayer == 2) {
             _MyRoom.cardOnTable2.push(_cardNumber);
             if (_MyRoom.allPlayerCard.length == 3) {
-                this.checkBaiCungSo(_cardNumber);
-                this.checkBaiCungChat(_cardNumber);
-
+                this.checkmatchx(_cardNumber);
             }
         }
         if (_idplayer == 3) {
             _MyRoom.cardOnTable3.push(_cardNumber);
             if (_MyRoom.allPlayerCard.length == 4) {
-                this.checkBaiCungSo(_cardNumber);
-                this.checkBaiCungChat(_cardNumber);
+                this.checkmatchx(_cardNumber);
             }
         }
-      //  console.log(_cardNumber+"||"+ _idplayer);
-       // xóa bài trên tay
-       if (_idplayer == 0) {
-        return _MyRoom.cardOnTable0;
+        //  console.log(_cardNumber+"||"+ _idplayer);
+        // xóa bài trên tay
+        if (_idplayer == 0) {
+            return _MyRoom.cardOnTable0;
 
-    }
-    if (_idplayer == 1) {
-        return _MyRoom.cardOnTable1;
+        }
+        if (_idplayer == 1) {
+            return _MyRoom.cardOnTable1;
 
-    }
-    if (_idplayer == 2) {
-        return _MyRoom.cardOnTable2;
+        }
+        if (_idplayer == 2) {
+            return _MyRoom.cardOnTable2;
 
-    }
-    if (_idplayer == 3) {
-        return _MyRoom.cardOnTable3;
+        }
+        if (_idplayer == 3) {
+            return _MyRoom.cardOnTable3;
 
-    }
+        }
 
     },
 
@@ -434,23 +446,28 @@ cc.Class({
         this.ChiaBai(false);
     },
     CheckBocBai() {
-        this.node.getChildByName("Hud").getChildByName("bocbai").active = false;
+        this.node.getChildByName("Game").getChildByName("bocbai2").active = false;
+        this.node.getChildByName("Game").getChildByName("BocBai").getComponent(cc.Button).interactable = false;
         if (_MyRoom.curAction == 'before') {
             if (_MyRoom.curUser == _WS.ID) {
-                this.node.getChildByName("Hud").getChildByName("bocbai").active = true;
+                this.node.getChildByName("Game").getChildByName("bocbai2").active = true;
+                this.node.getChildByName("Game").getChildByName("BocBai").getComponent(cc.Button).interactable = true;
             }
             //else this.needUpdate = true;
         }
     },
-    
+
     BocBai() { /// BTN
         console.log("btn BocBai");
-        // let socardconlai = this.cardList.length;
-        //  let randomx = Math.floor(Math.random() * socardconlai);
-        _WS.getPool();
-        this.needUpdate = true;
+
+     //  if (this.node.getChildByName("Game").getChildByName("bocbai2").active == true) {
+            // let socardconlai = this.cardList.length;
+            //  let randomx = Math.floor(Math.random() * socardconlai);
+            _WS.getPool();
+            this.needUpdate = true;
+     //}
     },
-    thembaiduoc(listcard){
+    thembaiduoc(listcard) {
         _MyRoom.allPlayerCard[0] = [];
         for (let j = 0; j < listcard.length; j++) {
             let _type = listcard[j].type;
@@ -468,13 +485,13 @@ cc.Class({
         //this.AddLaBaiBocDuocVaoBoBai(randomx);
     },
     AddLaBaiBocDuocVaoBoBai(randomx) {
-      //  this.ChiaBai(false);
+        //  this.ChiaBai(false);
     },
     SoLaBaiCuaNguoiChoi() {
 
     },
-    update (){
-        this.CheckBocBai();
+    update() {
+       
 
     },
     CheckLaBaiCoAnDuocKhong(_cardid) {
@@ -525,7 +542,6 @@ cc.Class({
             }
 
         }
-        var Player0 = this.node.getChildByName("Button").getChildByName("anphom").active = true;
 
         // var lengthM = PlayerM.length;
         // for (let i1 = 0; i1 < arrz.length; i1++) {
@@ -706,8 +722,8 @@ cc.Class({
         // this.HaPhom2();
         // this.HaPhom3();
 
-       // var _CardTable= cc.find("Canvas/GamePlay/CardTable");
-      // _CardTable.getComponent("CardTable").DanhBai2x(2,4,1);
+        // var _CardTable= cc.find("Canvas/GamePlay/CardTable");
+        // _CardTable.getComponent("CardTable").DanhBai2x(2,4,1);
 
     },
     HaPhom1() {
@@ -810,96 +826,102 @@ cc.Class({
 
         }, 0.1);
     },
-    checkMess(){
+    checkMess() {
         let self = this;
         self.schedule(function () {
-        if (this.needUpdate){
-            var self = this;
-            this.needUpdate = false;
-            console.log(this.needUpdate);
-            _WS.room.onMessage("action", (message) => {
-               /// let listcard =  message.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cards;
-              // self.thembaiduoc(listcard);
-            });
-        }else{
-            // _WS.room.onMessage("action", (message) => {
-            //         console.log(message);
-            //  });
-        }
+            if (this.needUpdate) {
+                var self = this;
+                this.needUpdate = false;
+                console.log(this.needUpdate);
+                _WS.room.onMessage("action", (message) => {
+                    /// let listcard =  message.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cards;
+                    // self.thembaiduoc(listcard);
+                });
+            } else {
+                // _WS.room.onMessage("action", (message) => {
+                //         console.log(message);
+                //  });
+            }
         }, 1);
 
     },
-    checkMessGlobal(mss){
+    checkMessGlobal(mss) {
         console.log("mss gl >>");
 
         console.log(mss);
         console.log("mss gl <<");
         _MyRoom.curAction = mss.action;
-        _MyRoom.curUser  = mss.userID;
+        _MyRoom.curUser = mss.userID;
         // if(mss.userID == _WS.ID){
         //     action
         // }
-        this.checkMessX();
         this.OtherPlayCard(mss);
 
     },
-    OtherPlayCard(mss){
-        let self = this;
+    OtherPlayCard(mss) {
         
-           if(mss.action == "before"){
-            if(_WS.ID == mss.clientID){
+        let self = this;
+
+        if (mss.action == "before") {
+            if (_WS.ID == mss.clientID) {
                 console.log("Tao đánh bài");
-            }else {
-                let idlocal =  _MyRoom.idlocal( mss.clientID,null);
-                console.log(idlocal.id +" : đánh bài" );
-                var _CardTable= cc.find("Canvas/GamePlay/CardTable");
-                _CardTable.getComponent("CardTable").DanhBai2x(mss.check.card.type,mss.check.card.value,idlocal.id);
+            } else {
+                let idlocal = _MyRoom.idlocal(mss.clientID, null);
+                console.log(idlocal.id + " : đánh bài");
+                var _CardTable = cc.find("Canvas/GamePlay/CardTable");
+                _CardTable.getComponent("CardTable").DanhBai2x(mss.check.card.type, mss.check.card.value, idlocal.id);
             }
             // check 2 nguoi choi
-           // let listcardTurn = mss.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cardTurn;
-           // this.checkListCardTurn(mss.mess.users);
-                // if(_MyRoom.cardOnTable0.length < listcardTurn.length){
-                //     let onecardTurn = listcardTurn[listcardTurn.length -1];
-                //     console.log(onecardTurn);
-                //     var _CardTable= cc.find("Canvas/GamePlay/CardTable");
-                //     _CardTable.getComponent("CardTable").DanhBai2x(onecardTurn.type,onecardTurn.message,1);
-                // }
-           }
-           if(mss.userID == _WS.ID){
-           if(mss.action == "after"){
-            console.log(this.needUpdate);
-            if (this.needUpdate){
-                this.needUpdate = false;
-                let listcard =  mss.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cards;
-               self.thembaiduoc(listcard);
-               console.log("boc duoc bai");
+            // let listcardTurn = mss.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cardTurn;
+            // this.checkListCardTurn(mss.mess.users);
+            // if(_MyRoom.cardOnTable0.length < listcardTurn.length){
+            //     let onecardTurn = listcardTurn[listcardTurn.length -1];
+            //     console.log(onecardTurn);
+            //     var _CardTable= cc.find("Canvas/GamePlay/CardTable");
+            //     _CardTable.getComponent("CardTable").DanhBai2x(onecardTurn.type,onecardTurn.message,1);
+            // }
+        }
+        if (mss.userID == _WS.ID) {
+            if (mss.action == "after") {
+                console.log(this.needUpdate);
+                if (this.needUpdate) {
+                    this.needUpdate = false;
+                    let listcard = mss.mess.users[_MyRoom.viTriNguoiChoi[0].idTrongArr].cards;
+                    self.thembaiduoc(listcard);
+                    console.log("boc duoc bai");
+                }
             }
-           }
         }
 
-        if(mss.action == "after"){
-            if(_WS.ID == mss.userID){
+        if (mss.action == "after") {
+            if (_WS.ID == mss.userID) {
                 console.log("Tao bốc bài");
-            }else{
-               let idlocal =  _MyRoom.idlocal(mss.userID,null);
-                console.log(idlocal.id +" : bốc bài" );
-                let idsv =  _MyRoom.idsv(mss.userID,null);
-                console.log(_MyRoom.allPlayerCard[idlocal.id].length + "|"+ mss.mess.users[idsv.id].cards.length);
+            } else {
+                let idlocal = _MyRoom.idlocal(mss.userID, null);
+                console.log(idlocal.id + " : bốc bài");
+                let idsv = _MyRoom.idsv(mss.userID, null);
+                console.log(_MyRoom.allPlayerCard[idlocal.id].length + "|" + mss.mess.users[idsv.id].cards.length);
             }
         }
+
+
+
+        this.CheckBocBai();
+        this.checkMessX();
+
     },
     checkMessX() {
         this.node.getChildByName("Button").getChildByName("danhbai").active = false;
         if (_MyRoom.curAction == 'after' && _MyRoom.curUser == _WS.ID) {
             //if (_MyRoom.curUser == _WS.ID) {
-                this.node.getChildByName("Button").getChildByName("danhbai").active = true;
-        //    }
+            this.node.getChildByName("Button").getChildByName("danhbai").active = true;
+            //    }
             //else this.needUpdate = true;
-        }else{
+        } else {
 
         }
     },
-    checkListCardTurn(users){
+    checkListCardTurn(users) {
         let _users = users;
         var list0 = [];
         var list1 = [];
@@ -909,19 +931,19 @@ cc.Class({
         for (let i = 0; i < _users.length; i++) {
             let listCardTurn = _users[i].cardTurn;
             for (let j = 0; j < listCardTurn.length; j++) {
-                if(i == 0){
+                if (i == 0) {
                     list0.push(listCardTurn[j]);
                 }
-                if(i == 1){
+                if (i == 1) {
                     list1.push(listCardTurn[j]);
                 }
-                if(i == 2){
+                if (i == 2) {
                     list2.push(listCardTurn[j]);
                 }
-                if(i == 3){
+                if (i == 3) {
                     list3.push(listCardTurn[j]);
-                }            
-            }            
+                }
+            }
         }
 
         // if(soNguoiChoiTrongRoom == 2){
