@@ -2562,7 +2562,7 @@
         "__id__": 53
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 58
@@ -3323,7 +3323,7 @@
   {
     "__type__": "cc.Node",
     "_name": "CardTable",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "_parent": {
       "__id__": 50
     },
@@ -3413,7 +3413,7 @@
   {
     "__type__": "cc.Node",
     "_name": "Player0",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "_parent": {
       "__id__": 68
     },
@@ -85061,7 +85061,7 @@
   {
     "__type__": "cc.Node",
     "_name": "PlayerM1",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "_parent": {
       "__id__": 68
     },
@@ -137435,7 +137435,7 @@
         "__id__": 3705
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [],
     "_prefab": null,
     "_opacity": 255,
@@ -137528,8 +137528,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
-        -280,
+        -2.919,
+        -169.065,
         0,
         0,
         0,

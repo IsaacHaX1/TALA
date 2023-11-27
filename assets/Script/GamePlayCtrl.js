@@ -367,6 +367,7 @@ cc.Class({
             if (_MyRoom.allPlayerCard.length == 2) {
                 this.checkBaiCungSo(_cardNumber);
                 this.checkBaiCungChat(_cardNumber);
+                
 
             }
         }
