@@ -299,6 +299,11 @@ cc.Class({
         tableCard.addChild(userIcon);
         
         _WS.getMatch(_Glb.cardObj(cardObj.id));
+
+        let idsv = _MyRoom.idsv(_WS.ID)
+        window._MyRoom.CheckTaoBocBai(idsv);
+        
+        this.CheckBocBai();
         self.scheduleOnce(function () {
             userIcon.setScale(1);
             var actionBy = cc.moveTo(0.5, cc.v2(player0123[0].posiCard[0], player0123[0].posiCard[1]));
@@ -449,7 +454,8 @@ cc.Class({
         this.node.getChildByName("Game").getChildByName("bocbai2").active = false;
         this.node.getChildByName("Game").getChildByName("BocBai").getComponent(cc.Button).interactable = false;
         if (_MyRoom.curAction == 'before') {
-            if (_MyRoom.curUser == _WS.ID) {
+
+            if(window._MyRoom.CheckTaoBocBai(null)){
                 this.node.getChildByName("Game").getChildByName("bocbai2").active = true;
                 this.node.getChildByName("Game").getChildByName("BocBai").getComponent(cc.Button).interactable = true;
             }
@@ -863,9 +869,13 @@ cc.Class({
         let self = this;
 
         if (mss.action == "before") {
+            let _idsv = _MyRoom.idsv(mss.clientID, null);
+            window._MyRoom.CheckTaoBocBai(_idsv.id, null);
             if (_WS.ID == mss.clientID) {
                 console.log("Tao đánh bài");
+                _MyRoom.LuotDanh ++;
             } else {
+                _MyRoom.LuotDanh ++;
                 let idlocal = _MyRoom.idlocal(mss.clientID, null);
                 console.log(idlocal.id + " : đánh bài");
                 var _CardTable = cc.find("Canvas/GamePlay/CardTable");

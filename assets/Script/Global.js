@@ -29,6 +29,7 @@ window._MyRoom = {
   curAction: '',
   isStartGame() {
     this.soNguoiChoi = window._MyRoom.cardRoom.mess.users.length;
+    this.svThangVuaDanhBai = -1;// chua thang nao danh bai ca
     this.XepVitriNguoiChoi();
 
   },
@@ -156,6 +157,36 @@ window._MyRoom = {
     }
   },
 
+  /////
+  svBocBai: 0,
+  svThangVuaDanhBai: -1,// khoi tao = -1 chua thang nao danh bai 
+  CheckTaoBocBai(svdanhbai) {
+    //window._MyRoom.CheckTaoBocBai(null);
+    
+      if(svdanhbai != null) this.svThangVuaDanhBai = svdanhbai;
+
+      if ( this.svThangVuaDanhBai >= (this.soNguoiChoi - 1)) {
+        this.svBocBai = 0;
+      } else {
+        this.svBocBai =  this.svThangVuaDanhBai  + 1;
+      }
+
+      let idlocal = this.idlocal(null,this.svBocBai);
+    if(idlocal.id == 0){
+      console.log("tao dc boc bai ne");
+      return true;
+
+    }else{
+      return false;
+
+    }
+
+  },
+  ThangDauTienBocBai() {
+
+  }
+  ////
+
 }
 
 window._WSL = {
@@ -246,7 +277,7 @@ window._WSL = {
 }
 
 window._Glb = {
-  checkMatch(card, arr){
+  checkMatch(card, arr) {
     console.log(card);
     console.log(arr);
 
@@ -371,11 +402,11 @@ window._Glb = {
     if (_checkbyValue.check) {
       return _checkbyValue;
     }
-  
+
     if (_checkByType.check) {
       return _checkByType;
     }
-  
+
     return {
       check: false,
       card: {
@@ -385,16 +416,16 @@ window._Glb = {
       pair: [],
     };
   },
-  cardObj(_cardNumber){
+  cardObj(_cardNumber) {
     obj = new Object();
     obj.type = Math.floor(_cardNumber / 100);
     obj.value = _cardNumber % 100;
     return obj;
   },
-  arrObj(arr){
+  arrObj(arr) {
     let arrx = [];
     for (let i = 0; i < arr.length; i++) {
-      let cardObj =  _Glb.cardObj(arr[i].id);
+      let cardObj = _Glb.cardObj(arr[i].id);
       arrx.push(cardObj);
     }
 
