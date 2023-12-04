@@ -208,6 +208,8 @@ cc.Class({
             obj.value = this.value;
             _WS.sendCard(obj);
 
+
+            
             // this.type = Math.floor(valueAll/100);
             // this.value = valueAll%100;
             var _cardNumber = this.type * 100 + this.value;

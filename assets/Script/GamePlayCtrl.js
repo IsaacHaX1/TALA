@@ -300,8 +300,17 @@ cc.Class({
         
         _WS.getMatch(_Glb.cardObj(cardObj.id));
 
+        // an an phom
+        this.node.getChildByName("Button").getChildByName("anphom").active = false;
+
+
+        //showbt danh bai
+        _MyRoom.curAction = 'after';
+        _MyRoom.curUser = _WS.ID;
+        this.checkMessX();
+        //tao vua boc bai
         let idsv = _MyRoom.idsv(_WS.ID)
-        window._MyRoom.CheckTaoBocBai(idsv);
+        window._MyRoom.CheckTaoBocBai(idsv.id);
         
         this.CheckBocBai();
         self.scheduleOnce(function () {
